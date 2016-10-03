@@ -6,6 +6,7 @@ from openerp import models
 # from openerp import fields
 from openerp import api
 from openerp import tools
+from openerp import fields
 from openerp.addons.web.http import request
 from openerp.addons.website.models.website import unslug
 
@@ -19,6 +20,18 @@ class Website(models.Model):
     """Override website model."""
 
     _inherit = "website"
+
+    filter_menu = fields.Selection(
+        string="Show Menu",
+        required=True,
+        selection=[
+            ('1', 'Odoo'),
+            ('2', 'CMS'),
+            ('3', 'Odoo & CMS'),
+        ],
+        default='1',
+        help="Filter to determine which menu shows in the front-end"
+    )
 
     @api.model
     @tools.ormcache('max_depth', 'pages', 'nav', 'type_ids', 'published')

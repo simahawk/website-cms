@@ -1,0 +1,20 @@
+<openerp>
+  <data>
+
+    <record id="website_config_settings" model="ir.ui.view">
+      <field name="name">website settings form</field>
+      <field name="model">website.config.settings</field>
+      <field name="inherit_id" ref="website.view_website_config_settings"/>
+      <field name="arch" type="xml">
+
+        <xpath expr="//group[@name='advanced']" position="after">
+          <group string="CMS" name="website-cms">
+            <field name="filter_menu" />
+          </group>
+        </xpath>
+
+      </field>
+    </record>
+
+  </data>
+</openerp>
