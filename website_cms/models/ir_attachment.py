@@ -39,7 +39,8 @@ class IRAttachment(models.Model):
         if not ids:
             return 0 if count else []
 
-        # Work with a set, as list.remove() is prohibitive for large lists of documents
+        # Work with a set, as list.remove() is prohibitive
+        # for large lists of documents
         # (takes 20+ seconds on a db with 100k docs during search_count()!)
         orig_ids = ids
         ids = set(ids)
@@ -76,7 +77,7 @@ class IRAttachment(models.Model):
                 # remove all corresponding attachment ids
                 for attach_id in itertools.chain(*targets.values()):
                     ids.remove(attach_id)
-                continue # skip ir.rule processing, these ones are out already
+                continue  # skip ir.rule processing, these ones are out already
 
             # filter ids according to what access rules permit
             target_ids = targets.keys()

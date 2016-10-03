@@ -1,23 +1,9 @@
 # -*- coding: utf-8 -*-
-import logging
-import urlparse
-import time
-
-import lxml.html
-
 import openerp
-import re
-
-_logger = logging.getLogger(__name__)
 
 
 class TestMedia(openerp.tests.HttpCase):
-    """ Test suite crawling an openerp CMS instance and checking that all
-    internal links lead to a 200 response.
-
-    If a username and a password are provided, authenticates the user before
-    starting the crawl
-    """
+    """ Test cms.media behavior."""
 
     at_install = False
     post_install = True
@@ -85,5 +71,3 @@ class TestMedia(openerp.tests.HttpCase):
         # # self.f2.website_published = True
         # # self.f2.public = True
         # # self.f2.invalidate_cache()
-
-

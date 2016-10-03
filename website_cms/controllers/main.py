@@ -96,10 +96,14 @@ PAGE_VIEW_ROUTES = [
     '/cms/<path:path>/<secure_model("cms.page"):main_object>',
     '/cms/<secure_model("cms.page"):main_object>/page/<int:page>',
     '/cms/<path:path>/<secure_model("cms.page"):main_object>/page/<int:page>',
-    '/cms/<secure_model("cms.page"):main_object>/media/<model("cms.media.category"):media_categ>',
-    '/cms/<secure_model("cms.page"):main_object>/media/<model("cms.media.category"):media_categ>/page/<int:page>',
-    '/cms/<path:path>/<secure_model("cms.page"):main_object>/media/<model("cms.media.category"):media_categ>',
-    '/cms/<path:path>/<secure_model("cms.page"):main_object>/media/<model("cms.media.category"):media_categ>/page/<int:page>',
+    '/cms/<secure_model("cms.page"):main_object>\
+        /media/<model("cms.media.category"):media_categ>',
+    '/cms/<secure_model("cms.page"):main_object>\
+        /media/<model("cms.media.category"):media_categ>/page/<int:page>',
+    '/cms/<path:path>/<secure_model("cms.page"):main_object>\
+        /media/<model("cms.media.category"):media_categ>',
+    '/cms/<path:path>/<secure_model("cms.page"):main_object>\
+        /media/<model("cms.media.category"):media_categ>/page/<int:page>',
 ]
 
 
@@ -116,7 +120,7 @@ class PageViewController(http.Controller, ContextAwareMixin):
         """
         site = request.website
         # check published
-        # XXX: this is weird since it should be done by `website` module itself.
+        # This is weird since it should be done by `website` module itself.
         # Alternatively we can put this in our `secure model` route handler.
         if not site.is_publisher() and not main_object.website_published:
             raise NotFound

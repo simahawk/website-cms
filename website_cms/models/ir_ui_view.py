@@ -8,7 +8,7 @@ from openerp.addons.website.models.website import url_for as url_for_orig
 
 
 def url_for(path_or_uri, lang=None, main_object=None):
-
+    """Override to avoid building links for not translated contents."""
     if main_object and main_object._name == 'cms.page':
         if lang and not lang == request.website.default_lang_code \
                 and not request.params.get('edit_translations') \
