@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+  <data>
+
+<record id="cms_media_category_form" model="ir.ui.view">
+  <field name="name">CMS Media Category form</field>
+  <field name="model">cms.media.category</field>
+  <field name="arch" type="xml">
+    <form string="Category">
+
+      <group col="4">
+        <group string="Main data" name="main_1" colspan="4">
+          <field name="name" />
+          <field name="active" colspan="2" />
+          <field name="icon" colspan="2"  groups="base.group_no_one" />
+          <field name="mimetypes" colspan="2" groups="base.group_no_one" />
+        </group>
+      </group>
+
+    </form>
+  </field>
+</record>
+
+
+<record id="cms_media_category_tree" model="ir.ui.view">
+  <field name="name">CMS Media Category tree</field>
+  <field name="model">cms.media.category</field>
+  <field name="arch" type="xml">
+    <tree string="Categories">
+      <field name="sequence" widget="handle" />
+      <field name="name" />
+      <field name="active" />
+      <field name="icon" />
+    </tree>
+  </field>
+</record>
+
+
+<record id="category_search" model="ir.ui.view" >
+  <field name="name">CMS Media Category search</field>
+  <field name="model">cms.media.category</field>
+  <field name="arch" type="xml">
+
+    <search string="Search category">
+      <field name="name" />
+      <field name="active" />
+    </search>
+
+  </field>
+</record>
+
+
+  </data>
+</openerp>
+
+

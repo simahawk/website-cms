@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data noupdate="1">
+
+
+<record id="default_page_type" model="cms.page.type">
+    <field name="name">Simple</field>
+</record>
+
+
+<record id="news_page_type" model="cms.page.type">
+    <field name="name">News</field>
+</record>
+
+
+    </data>
+</openerp>
