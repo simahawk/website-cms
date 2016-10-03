@@ -5,9 +5,38 @@
 CMS Features for Odoo Website
 =============================
 
-This repository includes advanced CMS features for the Odoo website builder:
+Includes modules that add advanced CMS functionalities to Odoo.
 
-* Different content for translations
+Main features
+-------------
+
+* Separation of concerns between ``page`` (content) and ``view`` (presentation)
+* Page types (simple, news, you-own-type)
+* Reusable views (create a CMS view and reuse it on your CMS pages)
+* Publish media and categorize it
+* Automatic navigation and site hierarchy
+* Meaningful URLs (read: "speaking URLs")
+* Manage redirects within page backend
+* Protect your content (set permissions on each page rather than view)
+* Full text search
+
+Roadmap
+-------
+
+* Improve frontend forms (manage media, reuse backend forms)
+* Independent translations branches (skip odoo translation mechanism on demand via configuration)
+* Edit permissions control / sharing facilities / notifications, etc
+* Simplified interface for managing users and groups
+* Publication workflow management
+* Content history / versioning
+* Full text search using PG built-in search engine (see fts modules)
+* Shorter URLs (drop path ids for instance)
+* Performance fixes/tuning (use parent_left/right for instance)
+* Introduce portlets for sidebar elements
+* Add "collections" to fetch contents from the whole website (eg: "News from 2016")
+* Improve test coverage
+* Default theme
+
 
 [//]: # (addons)
 This part will be replaced when running the oca-gen-addons-table script from OCA/maintainer-tools.
