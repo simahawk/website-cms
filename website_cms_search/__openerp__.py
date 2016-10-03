@@ -4,10 +4,10 @@
 {
     "name": "Website CMS Text Search",
     "summary": "Add search facilitites for CMS pages (website_cms)",
-    "version": "1.0",
+    "version": "9.0.1.0.0",
     "category": "Website",
     "website": "https://odoo-community.org/",
-    "author": "<AUTHOR(S)>, Odoo Community Association (OCA)",
+    "author": "Simone Orsi - Camptocamp, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "installable": True,
     'application': False,
