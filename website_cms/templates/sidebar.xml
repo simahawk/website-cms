@@ -3,23 +3,10 @@
 
 <template id="sidebar_editable" name="CMS sidebar editable">
 
-<!--   <div id="sidebar_content"
-       class="oe_structure"
-       t-att-data-oe-model="main_object._name"
-       t-att-data-oe-field="'sidebar_content'"
-       t-att-data-oe-id="main_object.id"
-       data-oe-type="html">
-
-    <t t-if="not main_object.sidebar_content">
-      <mark>Customize this block as you like</mark>
-    </t>
-  </div> -->
-
   <!-- Make `sidebar_content` editable ;) -->
   <div id="sidebar_content"
        t-field="main_object.sidebar_content"
        class="oe_structure"
-       t-att-contenteditable="editable and 'true' or None"
        />
 
 </template>
@@ -47,9 +34,9 @@
     </t>
 
     <t t-if="request.debug">
-      <div class="debug" style="color:orange !important">
+      <div class="debug">
         <div class="alert alert-warning" role="alert">
-          <h4>Debug mode ON</h4>
+          <strong>Debug mode ON</strong>
           <br />
           <t t-if="main_object.sidebar_view_ids">
             <h5>Views assigned here on main_object</h5>

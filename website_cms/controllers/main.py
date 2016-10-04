@@ -59,7 +59,7 @@ class ContextAwareMixin(object):
             # get a default item if any
             main_object = main_object.default_view_item_id
 
-        # f``or std editable variable see `ir.ui.view._prepare_qcontext`
+        # for std editable variable see `ir.ui.view._prepare_qcontext`
         editable = self._can_edit(main_object)
         lang = request.env.context.get('lang')
         translatable = editable \

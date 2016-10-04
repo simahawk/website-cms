@@ -17,7 +17,6 @@
     <div id="object_body"
          t-field="main_object.body"
          class="oe_structure"
-         t-att-contenteditable="editable and 'true' or None"
          />
   </template>
 
@@ -34,7 +33,7 @@
   </template>
 
 
-  <template id="page_default_with" name="Page default with title and descr">
+  <template id="page_default_with_descript" name="Page default with title and description">
     <t t-call="website.layout">
       <div class="container">
         <t t-call="website_cms.page_default_content">
@@ -104,4 +103,3 @@
   </record>
 
 </odoo>
-

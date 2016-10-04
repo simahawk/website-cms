@@ -47,9 +47,6 @@ class PageFormMixin(ContextAwareMixin):
 
         # make sure we do not allow website builder Form
         values['editable'] = values['translatable'] = False
-        # TODO: we should handle this
-        # values['errors'] = []
-        # values['status_message'] = ''
         values['view'] = self
         values['cms_form_mode'] = self.form_mode
         return values

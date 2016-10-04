@@ -20,7 +20,7 @@
           class="oe_stat_button"
           name="open_media"
           type="object"
-          icon="fa-list"
+          icon="fa-file-video-o"
           string="Media"
           />
         <button
@@ -116,13 +116,6 @@
             <field name="list_types_ids" />
           </group>
         </page>
-
-        <!-- <page name="sidebar-stuff" string="Sidebar content">
-          <group name="sidebar">
-            <field name="sidebar_view_ids" />
-            <field name="sidebar_content" widget="html" />
-          </group>
-        </page> -->
 
         <page name="permission-stuff" string="Permissions">
           <group name="permissions">

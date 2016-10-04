@@ -1,13 +1,7 @@
 # -*- coding: utf-8 -*-
 
-# import unittest
-# from lxml import etree as ET, html
-# from lxml.html import builder as h
-
-
 from openerp.tests import common
 from openerp import exceptions
-# from openerp.addons.website.models.website import slug
 
 
 class TestPage(common.TransactionCase):

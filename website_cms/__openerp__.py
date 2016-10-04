@@ -12,7 +12,6 @@
     "installable": True,
     'application': False,
     "depends": [
-        "base",
         'website',
     ],
     "data": [

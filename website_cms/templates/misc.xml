@@ -114,7 +114,8 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span t-ignore="true" aria-hidden="true" class="fa fa-remove"></span>
             </button>
-            <strong t-esc="msg['title']"></strong>&amp;nbsp; <t t-esc="msg['msg']" />
+            <strong t-esc="msg['title']" />
+            <t t-esc="msg['msg']" />
           </div>
         </t>
       </div>

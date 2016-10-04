@@ -164,8 +164,8 @@ class CMSPage(models.Model):
     default_view_item_id = fields.Many2one(
         string='Default view item',
         comodel_name='cms.page',
-        help=(u"Selet an item to be used as default view "
-              u"for current page. "),
+        help=(u"Select an item to be used as default view "
+              u"for current page."),
     )
 
     @api.multi
