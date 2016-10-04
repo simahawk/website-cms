@@ -14,6 +14,7 @@ from .main import ContextAwareMixin
 
 
 class PageFormMixin(ContextAwareMixin):
+
     """CMS page Form controller."""
 
     form_name = ''
@@ -146,6 +147,7 @@ class PageFormMixin(ContextAwareMixin):
 
 
 class CreatePage(http.Controller, PageFormMixin):
+
     """CMS page create controller."""
 
     form_name = 'add-page'
@@ -210,6 +212,7 @@ class CreatePage(http.Controller, PageFormMixin):
 
 
 class EditPage(http.Controller, PageFormMixin):
+
     """CMS page edit controller."""
 
     form_name = 'edit-page'
@@ -260,3 +263,57 @@ class EditPage(http.Controller, PageFormMixin):
                          u'in many views (like listing or homepage).'),
             }
             self.add_status_message(msg)
+
+
+class ManageMedia(http.Controller, PageFormMixin):
+
+    """CMS media manage controller."""
+
+    form_name = 'manage-media'
+    form_title = _('Manage media')
+    form_mode = 'media'
+    template = 'website_cms.page_media'
+    status_message_success = {
+        'type': 'media',
+        'title': 'Media:',
+        'msg': _(u'Media updated.'),
+    }
+
+    def load_defaults(self, main_object, **kw):
+        """Override to preload values."""
+        defaults = {}
+        if main_object:
+            defaults['parent_id'] = main_object.id
+            defaults['form_action'] = \
+                main_object.website_url + '/' + self.form_name
+            for fname in ('type_id', 'view_id'):
+                fvalue = getattr(main_object, 'sub_page_' + fname)
+                defaults[fname] = fvalue and fvalue.id or False
+            defaults[
+                'media_categories'] = request.website.get_media_categories()
+            defaults['media'] = request.website.get_media(
+                kw.get('media_categ') and kw.get('media_categ').id
+            )
+        return defaults
+
+    @http.route([
+        '/cms/manage-media',
+        '/cms/<secure_model("cms.page"):parent>/manage-media/',
+        '/cms/<secure_model("cms.page"):parent>/manage-media/'
+        '<secure_model("cms.media.category"):media_categ>',
+        '/cms/<path:path>/<secure_model("cms.page"):parent>/manage-media/',
+        '/cms/<path:path>/<secure_model("cms.page"):parent>/manage-media/'
+        '<secure_model("cms.media.category"):media_categ>',
+    ], type='http', auth='user', methods=['GET', 'POST'], website=True)
+    def manage(self, parent=None, **kw):
+        """Handle page add view and form submit."""
+        if request.httprequest.method == 'GET':
+            return self.render(parent, **kw)
+
+        elif request.httprequest.method == 'POST':
+            self.before_post_action(parent=parent, **kw)
+            # handle form submission
+            values = self.load_defaults(parent, **kw)
+            # TODO: handle errors
+            _values, errors = self.extract_values(request, parent, **kw)
+            values.update(_values)
