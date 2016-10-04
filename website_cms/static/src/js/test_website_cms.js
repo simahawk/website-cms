@@ -24,6 +24,9 @@ odoo.define("website_cms.tour", function (require) {
                 title: "Wait for the page editor to be displayed",
                 waitFor: "div:contains(Insert Blocks)",
                 onload: function() {
+                    // This could be replaced with an 'element' key but since
+                    // there is no link for the search controller it is
+                    // wired on a location reload.
                     window.location.href = '/cms/search';
                 },
             },
@@ -38,7 +41,27 @@ odoo.define("website_cms.tour", function (require) {
             {
                 title: "Verify that the search results returned the page created",
                 waitFor: "a.name:contains(Demo Page)",
-            }
+                element: "a.name:contains(Demo Page)",
+            },
+            {
+                title: "Click on 'Metadata' link in order to edit the page created",
+                waitFor: "li.edit.edit-frontend.ml16:contains(Metadata)",
+                element: "a:contains(Metadata)",
+            },
+            {
+                title: "Edit the page",
+                waitFor: "h2:contains(Edit page)",
+                element: "button.btn-primary:contains(Submit)",
+                onload: function () {
+                    $('input[name="name"]').val('Demo Page edited');
+                    $('textarea[name="description"]').val('Demo Page Description Edited');
+                    $('input.select2-input.select2-default').val('TestTagEdited');
+                },
+            },
+            {
+                title: "Wait for the success message of page edition",
+                waitFor: "div.alert.alert-info.alert-dismissible:contains(Page updated.)",
+            },
 
         ]
     });
