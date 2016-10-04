@@ -107,7 +107,7 @@
     <!-- TODO: handle various states (success, info, error) -->
     <t t-if="request.session.get('status_message')">
       <!-- pop it, so that we show msg only once! -->
-      <t t-set="status_message" t-value="request.session.pop('status_message')" />
+      <t t-set="status_message" t-value="request.session.pop('status_message', None)" />
       <div class="container status_message">
         <t t-foreach="status_message" t-as="msg">
           <div t-attf-class="alert alert-#{msg['type']} alert-dismissible" role="alert">
