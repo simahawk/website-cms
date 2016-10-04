@@ -43,7 +43,7 @@
         <t t-if="website.safe_hasattr(main_object, 'view_group_ids') and main_object.view_group_ids">
           <small
             groups="website_cms.cms_manager"
-            class="icon-user group-restrict-info danger help pull-right"
+            class="fa fa-user group-restrict-info danger help pull-right"
             style="cursor:help"
             title="Groups restrictions applied"></small>
         </t>
@@ -66,7 +66,7 @@
         <li t-att-class="not paginated.has_prev and 'disabled'">
           <a class="page-action page-prev" title="previous page" aria-label="Previous"
              t-att-href="paginated.has_prev and paginated.page_prev.url or None">
-            <span aria-hidden="true" class="icon-left-dir"></span>
+            <span t-ignore="true" aria-hidden="true" class="fa fa-arrow-right"></span>
           </a>
         </li>
         <t t-foreach="paginated.pages" t-as="item">
@@ -79,7 +79,7 @@
         <li t-att-class="not paginated.has_next and 'disabled'">
           <a class="page-action page-next" title="next page" aria-label="Next"
              t-att-href="paginated.has_next and paginated.page_next.url or None">
-            <span aria-hidden="true" class="icon-right-dir"></span>
+            <span t-ignore="true" aria-hidden="true" class="fa fa-arrow-right"></span>
           </a>
         </li>
       </ul>
