@@ -26,24 +26,6 @@ odoo.define("website_cms.tour", function (require) {
                 element: "a:contains(Discard)",
             },
             {
-                title: "Click on Search Button",
-                waitFor: "a:contains(Search Page)",
-                element: "a:contains(Search Page)",
-            },
-            {
-                title: "Search for the recently created page 'Demo Page'",
-                waitFor: "input[name='search_text']",
-                onload: function() {
-                    $("input[name='search_text']").val('page');
-                },
-                element: "button:contains(Go!)",
-            },
-            {
-                title: "Verify that the search results returned the page created",
-                waitFor: "a.name:contains(Demo Page)",
-                element: "a.name:contains(Demo Page)",
-            },
-            {
                 title: "Click on 'Metadata' link in order to edit the page created",
                 waitFor: "li.edit.edit-frontend.ml16:contains(Metadata)",
                 element: "a:contains(Metadata)",

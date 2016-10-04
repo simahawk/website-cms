@@ -66,5 +66,14 @@
   </t>
 
 </template>
+<template id="add_search_link" inherit_id="website_cms.cms_user_actions" name="Add Search Link">
+  <xpath expr="//li[last()]" position="after">
+    <li class="search search-page ml16" groups="base.group_website_designer">
+      <a class="btn btn-link btn-xs"
+         href="/cms/search">
+         <i class="fa fa-search" /> Search Page</a>
+    </li>
+  </xpath>
+</template>
 
 </odoo>

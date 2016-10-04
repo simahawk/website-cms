@@ -38,11 +38,6 @@
          t-att-href="website.cms_add_link(main_object=main_object)">
          <i class="fa fa-plus-square-o" /> Add CMS Page</a>
     </li>
-    <li class="search search-page ml16" groups="base.group_website_designer">
-      <a class="btn btn-link btn-xs"
-         href="/cms/search">
-         <i class="fa fa-search" /> Search Page</a>
-    </li>
   </ul>
 
 </template>
