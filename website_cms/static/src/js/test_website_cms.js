@@ -16,15 +16,30 @@ odoo.define("website_cms.tour", function (require) {
                 element: "button.btn-primary:contains(Submit)",
                 onload: function () {
                     $('input[name="name"]').val('Demo Page');
-                    $('input[name="description"]').val('Demo Page Description');
-
+                    $('textarea[name="description"]').val('Demo Page Description');
+                    $('input.select2-input.select2-default').val('TestTag');
                 },
             },
             {
                 title: "Wait for the page editor to be displayed",
                 waitFor: "div:contains(Insert Blocks)",
-
+                onload: function() {
+                    window.location.href = '/cms/search';
+                },
             },
+            {
+                tile: "Search for the recently created page 'Demo Page'",
+                waitFor: "input[name='search_text']",
+                onload: function() {
+                    $("input[name='search_text']").val('page');
+                },
+                element: "button:contains(Go!)",
+            },
+            {
+                title: "Verify that the search results returned the page created",
+                waitFor: "a.name:contains(Demo Page)",
+            }
+
         ]
     });
 
