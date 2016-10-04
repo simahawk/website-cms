@@ -23,10 +23,15 @@ odoo.define("website_cms.tour", function (require) {
             {
                 title: "Wait for the page editor to be displayed",
                 waitFor: "div:contains(Insert Blocks)",
+                element: "a:contains(Discard)",
+            },
+            {
+                title: "Click on Search Button",
+                waitFor: "a:contains(Search Page)",
                 element: "a:contains(Search Page)",
             },
             {
-                tile: "Search for the recently created page 'Demo Page'",
+                title: "Search for the recently created page 'Demo Page'",
                 waitFor: "input[name='search_text']",
                 onload: function() {
                     $("input[name='search_text']").val('page');
