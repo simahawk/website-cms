@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-  <data>
+<odoo>
 
     <record model="ir.module.category" id="module_categ_cms_security">
         <field name="name">CMS Management</field>
@@ -20,5 +19,4 @@
       <field name="category_id" ref="module_categ_cms_security" />
     </record>
 
-  </data>
-</openerp>
+</odoo>

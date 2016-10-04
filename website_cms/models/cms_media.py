@@ -18,7 +18,7 @@ from openerp.addons.website_cms.utils import AttrDict
 import urlparse
 
 
-# XXX: we should move this stuff to website_cms
+# TODO: we should move this stuff to website_cms
 # and use services like http://noembed.com
 EMBED_PATTERN = AttrDict({
     'youtube': AttrDict({

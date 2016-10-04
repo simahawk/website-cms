@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
+<odoo>
 
 <!-- TODO: load fields automatically based on form schema.
 
@@ -130,5 +129,4 @@ We load each field explicitely here for now.
 
 </template>
 
-</data>
-</openerp>
+</odoo>

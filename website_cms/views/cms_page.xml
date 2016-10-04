@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<openerp>
-  <data>
+<odoo>
 
 <record id="cms_page_form" model="ir.ui.view">
   <field name="name">CMS Page form</field>
@@ -200,8 +199,4 @@
   </field>
 </record>
 
-
-  </data>
-</openerp>
-
-
+</odoo>

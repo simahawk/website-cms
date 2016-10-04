@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<openerp>
-    <data noupdate="1">
+<odoo noupdate="1">
 
 
 <record id="media_category_document" model="cms.media.category">
@@ -48,6 +47,4 @@ application/x-tar
     </field>
 </record>
 
-
-    </data>
-</openerp>
+</odoo>

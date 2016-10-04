@@ -49,7 +49,7 @@ class TestMedia(openerp.tests.HttpCase):
         self.assertTrue(self.f2.exists())
         # resp = self.url_open(self.f2.website_url)
 
-        # XXX: something really weird is going on here
+        # TODO: something really weird is going on here
         # the former assertion on `exists` passes
         # but when ir_http.binary_content is called
         # to dispatch the file content

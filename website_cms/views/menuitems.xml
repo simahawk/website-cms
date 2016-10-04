@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<openerp>
-  <data>
+<odoo>
 
 <record model="ir.actions.act_window" id="action_cms_pages">
   <field name="name">Pages</field>
@@ -101,7 +100,4 @@
   groups="website_cms.cms_media_category_manager"
   />
 
-  </data>
-</openerp>
-
-
+</odoo>

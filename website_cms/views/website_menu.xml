@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<openerp>
-  <data>
+<odoo>
 
-    <record id="bwi_menu_tree" model="ir.ui.view">
-      <field name="name">BWI website menu tree</field>
+    <record id="menu_tree" model="ir.ui.view">
+      <field name="name">Website menu tree</field>
       <field name="model">website.menu</field>
       <field name="inherit_id" ref="website.menu_tree"/>
       <field name="arch" type="xml">
@@ -16,8 +15,8 @@
       </field>
     </record>
 
-    <record id="bwi_menu_search" model="ir.ui.view">
-      <field name="name">BWI website menu search</field>
+    <record id="menu_search" model="ir.ui.view">
+      <field name="name">Website menu search</field>
       <field name="model">website.menu</field>
       <field name="inherit_id" ref="website.menu_search"/>
       <field name="arch" type="xml">
@@ -27,5 +26,4 @@
       </field>
     </record>
 
-  </data>
-</openerp>
+</odoo>

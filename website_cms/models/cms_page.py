@@ -85,7 +85,7 @@ class CMSPage(models.Model):
         column1='page_id',
         column2='tag_id',
     )
-    # XXX 2016-03-30: we are not using this anymore
+    # TODO 2016-03-30: we are not using this anymore
     # because we can use cms.media since a while.
     # It might be useful for other purposes,
     # let's keep it for a while.
@@ -227,7 +227,7 @@ class CMSPage(models.Model):
     @api.model
     def build_public_url(self, item):
         """Walk trough page path to build its public URL."""
-        # XXX: this could be expensive... think about it!
+        # TODO: this could be expensive... think about it!
         # We could store it but then we need to update
         # all the pages below a certain parent
         # if the parent name changes or if a parent is moved/changed.
@@ -257,7 +257,7 @@ class CMSPage(models.Model):
             res[item.id] = self.build_public_url(item)
         return res
 
-    # XXX: how to update path for the whole hierarchy
+    # TODO: how to update path for the whole hierarchy
     # whenever and ancestor parent/name
     # - no matter the level -  is updated?
     # Right now we are supporting explicitely 3 levels,
@@ -472,7 +472,7 @@ class CMSPage(models.Model):
                     tags_domain.append(('id', '!=', item.id, ))
 
         # prepare final domain
-        # XXX: this could be done better...
+        # TODO: this could be done better...
         domain = []
         if tags_domain:
             if len(base_domain + hierarchy_domain) > 1:
@@ -576,7 +576,7 @@ class CMSPage(models.Model):
 
     def get_paginated_media_listing(self, page=0, step=10, **kw):
         """Get items for listing sliced for pagination."""
-        # XXX: shoul we merge this w/ above listing?
+        # TODO: shoul we merge this w/ above listing?
         all_items = self.get_media_listing(**kw)
         return self.paginate(all_items, page=page, step=step)
 
@@ -594,7 +594,7 @@ class CMSPage(models.Model):
         `lang` a lang obj or lang code to limit listing to specific language
         `order` to override ordering by sequence
 
-        # XXX: should we provide a path for media too?
+        # TODO: should we provide a path for media too?
         `path` to search in a specific path instead of
         just listing current item's children.
 

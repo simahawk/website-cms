@@ -6,13 +6,5 @@
       <field name="website_form_access">True</field>
       <field name="website_form_label">Edit page</field>
     </record>
-    <!-- <function model="ir.model.fields" name="formbuilder_whitelist">
-      <value>cms.page</value>
-      <value eval="[
-        'parent_id',
-        'name',
-        'description',
-        ]"/>
-    </function> -->
   </data>
 </odoo>

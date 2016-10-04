@@ -88,7 +88,7 @@ class Website(models.Model):
         """
         depth = max_depth or 3  # safe default to avoid infinite recursion
         sec_model = self.env['cms.page']
-        # XXX: consider to define these args in the main method
+        # TODO: consider to define these args in the main method
         search_args = [
             ('parent_id', '=', item.id),
         ]
@@ -129,7 +129,7 @@ class Website(models.Model):
     @api.model
     def download_url(self, item, field_name, filename=''):
         if not filename:
-            # XXX: we should calculate the filename from the field
+            # TODO: we should calculate the filename from the field
             # but in some cases we do not have a proxy for the value
             # like for attachments, so we don't have a way
             # to get the original name of the file.
@@ -202,7 +202,7 @@ class Website(models.Model):
 
     def cms_add_link(self, main_object=None):
         """Retrieve add cms page link."""
-        # XXX: avoid adding sub pages inside news.
+        # TODO: avoid adding sub pages inside news.
         # In the future we might consider controlling this
         # via cms.page.type configuration
 

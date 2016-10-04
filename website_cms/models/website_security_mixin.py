@@ -9,6 +9,11 @@
 # pylint: disable=R0913
 # pylint: disable=R0914
 
+# TODO:
+# replace sql query and secure model stuff with access rules
+# + computed fields like read_access/write_access that check for groups
+# and then add rules to check only these fields.
+# Thanks Jairo for pointing me in the right direction :)
 
 from openerp import models
 from openerp import fields

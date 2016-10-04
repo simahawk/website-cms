@@ -47,7 +47,7 @@ class PageFormMixin(ContextAwareMixin):
 
         # make sure we do not allow website builder Form
         values['editable'] = values['translatable'] = False
-        # XXX: we should handle this
+        # TODO: we should handle this
         # values['errors'] = []
         # values['status_message'] = ''
         values['view'] = self
@@ -132,17 +132,6 @@ class PageFormMixin(ContextAwareMixin):
                                  'status_message_' + self.action_status, None)
         if status_message:
             self.add_status_message(status_message)
-
-    # def get_fields(self, writable_fields):
-    #     authorized = request.env['ir.model'].search(
-    #         [('model', '=', self.model)]).get_authorized_fields()
-    #     return [
-    #         self.prepare_field(x) for x in authorized
-    #         if x in writable_fields
-    #     ]
-
-    # def prepare_field(self, field_info):
-    #     return field_info
 
 
 class CreatePage(http.Controller, PageFormMixin):
