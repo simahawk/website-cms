@@ -8,6 +8,7 @@ from openerp import tools
 from openerp.addons.web.http import request
 from openerp.addons.website.models.website import unslug
 
+
 from openerp.addons.website_cms.utils import AttrDict
 
 import urlparse
@@ -147,6 +148,17 @@ class Website(models.Model):
         return self.env['cms.media.category'].search(
             [('active', '=', active)])
 
+    @api.model
+    def get_media(self, category_id=None, published=None):
+        search_args = []
+
+        if category_id:
+            search_args.append(('category_id', '=', category_id))
+        if published:
+            search_args.append(('website_published', '=', True))
+
+        return self.env['cms.media'].search(search_args)
+
     def get_alternate_languages(self, cr, uid, ids,
                                 req=None, context=None,
                                 main_object=None):
@@ -240,4 +252,13 @@ class Website(models.Model):
             is_manager = self.env.user.has_group('website_cms.cms_manager')
             is_owner = main_object.create_uid.id == self.env.user.id
             return is_owner or is_manager
+        return False
+
+    def cms_media_categ_links(self, main_object=None, category=None):
+        """Retrieve media cms page links"""
+        if self.is_cms_page(main_object):
+            url = '%s/manage-media' % main_object.website_url
+            if category:
+                url = url + '/%s' % category.public_slug()
+            return url
         return False

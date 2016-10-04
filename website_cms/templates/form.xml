@@ -104,6 +104,17 @@ We load each field explicitely here for now.
 
       </div>
 
+      <div class="form-group form-field mt8 field-media">
+        <label class="col-md-2 col-sm-3 control-label" for="tags">Media</label>
+        <!-- make sure you keep a fake `value` attribute
+        otherwise `initSelection` mechanism won't work.
+        See http://select2.github.io/select2/#initSelection -->
+
+        <span></span>
+        <input type="text" name="tag_ids" class="form-control js_select2" style="clear:both"
+               t-att-data-can-create="is_cms_manager and 1 or None"
+               placeholder="Tags" t-attf-data-init-value="#{tag_ids}" value="media goes here" />
+      </div>
 
       <div class="form-group form-field mt8 field-tag_ids">
         <label class="col-md-2 col-sm-3 control-label" for="tags">Tags</label>
@@ -123,6 +134,38 @@ We load each field explicitely here for now.
       </div>
 
     </form>
+  </t>
+
+</template>
+
+<template id="page_media" name="CMS Media Form">
+
+  <t t-call="website.layout">
+    <t t-if="False">
+      # we can override default action via form values
+    </t>
+
+    <t t-set="title" t-value="view.form_title" />
+
+    <div class="col-xs-12 col-md-10 col-md-offset-1">
+      <h2>
+        <span class="form_title" t-esc="view.form_title" />
+      </h2>
+
+      <ul class="nav nav-tabs nav-justified mt32">
+          <li role="presentation" class="active"><a t-att-href="website.cms_media_categ_links(main_object=main_object)">All</a></li>
+        <t t-foreach="media_categories" t-as="category">
+          <li role="presentation"><a t-att-href="website.cms_media_categ_links(main_object=main_object, category=category)" t-field="category.name"></a></li>
+        </t>
+      </ul>
+    
+      <t t-foreach="media" t-as="res">
+        <div class="col-xs-12 col-md-3 mt16">
+          <span t-esc="res.name"/>
+        </div>
+      </t>
+
+    </div>
   </t>
 
 </template>
