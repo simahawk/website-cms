@@ -89,16 +89,14 @@
   <template id="debug_view_info" name="CMS debug view info">
     <t t-if="request.debug">
       <div class="container">
-        <div class="row" style="border:1px solid red;padding:0.5em;font-size:10px!important">
-          <h3 style="color:black">Debug info</h3>
-          <div class="row">
-            <p style="color:black">
-              <strong>Current view:</strong>
-              <t t-if="website.safe_hasattr(main_object, 'view_id') and main_object.view_id">
-                  <t t-esc="main_object.view_id.key" /> - <t t-esc="main_object.view_id.name" />
-              </t>
-            </p>
-          </div>
+        <div class="alert alert-danger" role="alert">
+          <strong>CMS Debug info</strong>
+          <p>
+            <strong>Current view:</strong>
+            <t t-if="website.safe_hasattr(main_object, 'view_id') and main_object.view_id">
+                <t t-esc="main_object.view_id.key" /> - <t t-esc="main_object.view_id.name" />
+            </t>
+          </p>
         </div>
       </div>
     </t>
