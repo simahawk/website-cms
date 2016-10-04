@@ -33,7 +33,7 @@
   </template>
 
 
-  <template id="page_default_with_descript" name="Page default with title and description">
+  <template id="page_default_with_description" name="Page default with title and description">
     <t t-call="website.layout">
       <div class="container">
         <t t-call="website_cms.page_default_content">
@@ -49,7 +49,7 @@
     <field name="cms_view" eval="1" />
   </record>
 
-  <record id="website_cms.page_default_with" model="ir.ui.view">
+  <record id="website_cms.page_default_with_description" model="ir.ui.view">
     <field name="cms_view" eval="1" />
   </record>
 
