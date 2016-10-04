@@ -43,25 +43,21 @@
 </template>
 
 <template id="submenu" name="Website CMS Submenu">
-<!--     <li t-if="not submenu.child_id" t-att-class="
-        'active' if submenu.url and submenu.url != '/' and request.httprequest.path == submenu.url.replace('/page/website.', '/page/') else None
-        "> -->
-      <li>
-<!--         <a t-att-href="(website.menu_id.child_id[0] == submenu) and '/' or submenu.url" t-ignore="true" t-att-target="'_blank' if submenu.new_window else None"> -->
-        <a href="#">
-            <span t-field="submenu.name"/>
+    <li t-if="not submenu.get('children')" t-att-class="
+        'active' if submenu.get('url') and submenu.get('url') != '/' and request.httprequest.path == submenu.get('url') else None">
+        <a t-att-href="submenu.get('url')" t-ignore="true">
+            <span t-esc="submenu.get('name')"/>
         </a>
     </li>
-<!--     <li t-if="submenu.child_id" t-attf-class="dropdown #{
-        (submenu.url and submenu.url != '/' and any([request.httprequest.path == child.url.replace('/page/website.', '/page/') for child in submenu.child_id if child.url]) or
-         (submenu.url and request.httprequest.path == submenu.url.replace('/page/website.', '/page/'))) and 'active'
-        }"> -->
-    <li>
+    <li t-if="submenu.get('children')" t-attf-class="dropdown #{
+        (submenu.get('url') and submenu.get('url') != '/' and any([request.httprequest.path == child.get('url') for child in submenu.get('children', [])]) or
+         (submenu.get('url') and request.httprequest.path == submenu.get('url'))) and 'active'
+        }">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <span t-field="submenu.name"/> <span class="caret" t-ignore="true"></span>
+            <span t-esc="submenu.get('name')"/> <span class="caret" t-ignore="true"></span>
         </a>
         <ul class="dropdown-menu" role="menu">
-            <t t-foreach="submenu.children_ids" t-as="submenu">
+            <t t-foreach="submenu.get('children')" t-as="submenu">
                 <t t-call="website_cms.submenu"/>
             </t>
         </ul>

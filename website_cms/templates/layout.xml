@@ -18,7 +18,7 @@
         </t>
       </t>
       <t t-if="website.filter_menu in ['2','3']">
-        <t t-foreach="request.env['cms.page'].search([])" t-as="submenu">
+        <t t-foreach="website.get_nav_pages()" t-as="submenu">
           <t t-call="website_cms.submenu"/>
         </t>
       </t>
