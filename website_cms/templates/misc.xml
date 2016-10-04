@@ -65,20 +65,20 @@
       <ul class="pagination">
         <li t-att-class="not paginated.has_prev and 'disabled'">
           <a class="page-action page-prev" title="previous page" aria-label="Previous"
-             t-att-href="paginated.has_prev and paginated.page_prev.url or None">
+             t-att-href="(paginated.has_prev and paginated.page_prev.url) or False">
             <span t-ignore="true" aria-hidden="true" class="fa fa-arrow-right"></span>
           </a>
         </li>
         <t t-foreach="paginated.pages" t-as="item">
           <li t-att-class="paginated.current.num == item.num and 'disabled'">
             <a class="page-action page-num"
-               t-att-href="paginated.current.num != item.num and item.url or None"
+               t-att-href="(paginated.current.num != item.num and item.url) or False"
                t-esc="item.num" />
           </li>
         </t>
         <li t-att-class="not paginated.has_next and 'disabled'">
           <a class="page-action page-next" title="next page" aria-label="Next"
-             t-att-href="paginated.has_next and paginated.page_next.url or None">
+             t-att-href="(paginated.has_next and paginated.page_next.url) or False">
             <span t-ignore="true" aria-hidden="true" class="fa fa-arrow-right"></span>
           </a>
         </li>
