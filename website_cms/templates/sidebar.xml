@@ -15,7 +15,7 @@
     </t>
   </div> -->
 
-  <t t-if="False"># Make `sidebar_content` editable ;)</t>
+  <!-- Make `sidebar_content` editable ;) -->
   <div id="sidebar_content"
        t-field="main_object.sidebar_content"
        class="oe_structure"
@@ -34,13 +34,13 @@
 
 
   <t t-if="website.safe_hasattr(main_object, 'sidebar_view_ids')">
-    <t t-if="False">
+    <!--
       main_object.sidebar_view_ids => throws an error
       since there's no safe "hasattr" when evaluating
 
       QWebException: "'NoneType' object is not callable" while evaluating
       "main_object and getattr(main_object, 'sidebar_view_ids', None)"
-    </t>
+    -->
 
     <t t-foreach="main_object.sidebar_view_ids" t-as="view">
       <t t-call="#{ view.key }" />

@@ -21,11 +21,11 @@
 
   <template id="add_mgmt_actions" inherit_id="website.layout">
     <xpath expr="//main" position="before">
-      <t t-if="False">
-        # we need this check here, since ir.ui.view (and potentially other models)
-        # do not have `website_published` attribute that is used
-        # by management actions for publishing/unpublishing contents.
-      </t>
+      <!--
+        we need this check here, since ir.ui.view (and potentially other models)
+        do not have `website_published` attribute that is used
+        by management actions for publishing/unpublishing contents.
+      -->
       <t t-if="website.safe_hasattr(main_object, 'website_published')">
         <t t-call="website_cms.mgmt_actions" />
       </t>

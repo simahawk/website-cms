@@ -10,9 +10,6 @@ We load each field explicitely here for now.
 <template id="page_form" name="CMS Page Form">
 
   <t t-call="website.layout">
-    <t t-if="False">
-      # we can override default action via form values
-    </t>
 
     <t t-set="title" t-value="view.form_title" />
 
@@ -20,6 +17,7 @@ We load each field explicitely here for now.
       <span class="form_title" t-esc="view.form_title" />
     </h2>
 
+    <!-- we can override default action via form values: check form controller -->
     <form
       t-att-action="form_action or '/cms/add-page'"
       method="POST"
