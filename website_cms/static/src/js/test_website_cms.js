@@ -23,12 +23,7 @@ odoo.define("website_cms.tour", function (require) {
             {
                 title: "Wait for the page editor to be displayed",
                 waitFor: "div:contains(Insert Blocks)",
-                onload: function() {
-                    // This could be replaced with an 'element' key but since
-                    // there is no link for the search controller it is
-                    // wired on a location reload.
-                    window.location.href = '/cms/search';
-                },
+                element: "a:contains(Search Page)",
             },
             {
                 tile: "Search for the recently created page 'Demo Page'",
