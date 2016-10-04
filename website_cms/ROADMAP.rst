@@ -14,3 +14,6 @@ Roadmap
 * Add "collections" to fetch contents from the whole website (eg: "News from 2016")
 * Improve test coverage
 * Default theme
+* Default example views
+
+* Form: sanitize user input and add validation and handle errors

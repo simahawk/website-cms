@@ -29,7 +29,7 @@ class WebsiteRedirectMixin(models.AbstractModel):
         string='Redirect to',
         comodel_name='cms.redirect',
         help=(u"If valued, you will be redirected "
-              u"to selected item permanently. "),
+              u"to selected item permanently."),
         domain=[('create_date', '=', False)]
     )
 
@@ -107,11 +107,7 @@ class CMSLinkMixin(models.AbstractModel):
 
 
 class CMSRedirect(models.Model):
-    """Add some more features here.
-
-    Fields:
-    * `redirect_to_id`
-    """
+    """Handle redirection for `cms.page` model."""
 
     _name = "cms.redirect"
     _inherit = "cms.link.mixin"

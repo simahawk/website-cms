@@ -3,7 +3,6 @@
 # pylint: disable=E0401
 
 from openerp import models
-# from openerp import fields
 from openerp import api
 from openerp import tools
 from openerp.addons.web.http import request
@@ -190,7 +189,7 @@ class Website(models.Model):
         if not ref:
             return None
         parsed = urlparse.urlparse(ref)
-        if '/cms/' in parsed.path:
+        if parsed.path.startswith('/cms'):
             last_bit = parsed.path.split('/')[-1]
             page_id = unslug(last_bit)[-1]
             return request.env['cms.page'].browse(page_id)
