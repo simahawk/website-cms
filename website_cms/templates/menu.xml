@@ -42,6 +42,28 @@
 
 </template>
 
+<template id="submenu" name="Website CMS Submenu">
+    <li t-if="not submenu.get('children')" t-att-class="
+        'active' if submenu.get('url') and submenu.get('url') != '/' and request.httprequest.path == submenu.get('url') else None">
+        <a t-att-href="submenu.get('url')" t-ignore="true">
+            <span t-esc="submenu.get('name')"/>
+        </a>
+    </li>
+    <li t-if="submenu.get('children')" t-attf-class="dropdown #{
+        (submenu.get('url') and submenu.get('url') != '/' and any([request.httprequest.path == child.get('url') for child in submenu.get('children', [])]) or
+         (submenu.get('url') and request.httprequest.path == submenu.get('url'))) and 'active'
+        }">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <span t-esc="submenu.get('name')"/> <span class="caret" t-ignore="true"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+            <t t-foreach="submenu.get('children')" t-as="submenu">
+                <t t-call="website_cms.submenu"/>
+            </t>
+        </ul>
+    </li>
+</template>
+
 </data>
 </openerp>
 

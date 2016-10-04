@@ -30,6 +30,7 @@
         "views/cms_media.xml",
         "views/cms_media_category.xml",
         'views/website_menu.xml',
+        'views/res_config.xml',
         # templates
         "templates/assets.xml",
         "templates/misc.xml",
