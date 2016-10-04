@@ -112,7 +112,7 @@
         <t t-foreach="status_message" t-as="msg">
           <div t-attf-class="alert alert-#{msg['type']} alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&amp;times;</span>
+              <span t-ignore="true" aria-hidden="true" class="fa fa-remove"></span>
             </button>
             <strong t-esc="msg['title']"></strong>&amp;nbsp; <t t-esc="msg['msg']" />
           </div>
