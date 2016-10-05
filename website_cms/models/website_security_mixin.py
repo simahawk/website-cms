@@ -43,7 +43,7 @@ class WebsiteSecurityMixin(models.AbstractModel):
     view_group_ids = fields.Many2many(
         string='View Groups',
         comodel_name='res.groups',
-        help=(u"Restrict `view` access to this item to specific groups. "
+        help=("Restrict `view` access to this item to specific groups. "
               u"No group means anybody can see it.")
     )
 

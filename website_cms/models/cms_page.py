@@ -113,44 +113,44 @@ class CMSPage(models.Model):
     sub_page_type_id = fields.Many2one(
         string='Default page type for sub pages',
         comodel_name='cms.page.type',
-        help=(u"You can select a page type to be used "
+        help=("You can select a page type to be used "
               u"by default for each contained page."),
     )
     sub_page_view_id = fields.Many2one(
         string='Default page view for sub pages',
         comodel_name='ir.ui.view',
-        help=(u"You can select a view to be used "
+        help=("You can select a view to be used "
               u"by default for each contained page."),
         domain=lambda self: VIEW_DOMAIN,
     )
     list_types_ids = fields.Many2many(
         string='Types to list',
         comodel_name='cms.page.type',
-        help=(u"You can select types of page to be used "
+        help=("You can select types of page to be used "
               u"in `listing` views."),
     )
     sidebar_view_ids = fields.Many2many(
         string='Sidebar views',
         comodel_name='ir.ui.view',
-        help=(u"Each view linked here will be rendered in the sidebar."),
+        help=("Each view linked here will be rendered in the sidebar."),
         domain=lambda self: SIDEBAR_VIEW_DOMAIN,
     )
     sidebar_content = fields.Html(
         'Sidebar HTML',
         translate=html_translate,
         sanitize=False,
-        help=(u"Each template that enables customization in the sidebar "
+        help=("Each template that enables customization in the sidebar "
               u"must use this field to store content."),
     )
     # sidebar_inherit = fields.Boolean(
     #     'Sidebar Inherit',
-    #     help=(u"If turned on, you'll see the same sidebar "
+    #     help=("If turned on, you'll see the same sidebar "
     #           u"into each contained page."),
     # )
     nav_include = fields.Boolean(
         'Nav include',
         default=False,
-        help=(u"Decide if this item "
+        help=("Decide if this item "
               u"should be included in main navigation."),
     )
     path = fields.Char(
@@ -164,7 +164,7 @@ class CMSPage(models.Model):
     default_view_item_id = fields.Many2one(
         string='Default view item',
         comodel_name='cms.page',
-        help=(u"Select an item to be used as default view "
+        help=("Select an item to be used as default view "
               u"for current page."),
     )
 
@@ -191,7 +191,7 @@ class CMSPage(models.Model):
         # and prevent deletion
         media = self.env['cms.media'].search([('res_id', 'in', self.ids)])
         if media:
-            msg = _(u"You are trying to delete a page "
+            msg = _("You are trying to delete a page "
                     u"that has media items attached to it!")
             raise exceptions.Warning(msg)
         return super(CMSPage, self).unlink()
@@ -210,7 +210,7 @@ class CMSPage(models.Model):
         self.ensure_one()
         if self.parent_id and self.parent_id.id == self.id:
             raise exceptions.ValidationError(
-                _(u'You cannot set the parent of a page '
+                _('You cannot set the parent of a page '
                   u'equal to the page itself. Page: "%s"') % self.name
             )
 

@@ -141,7 +141,7 @@ class CreatePage(http.Controller, PageFormMixin):
     status_message_success = {
         'type': 'info',
         'title': 'Info:',
-        'msg': _(u'Page created.'),
+        'msg': _('Page created.'),
     }
 
     def load_defaults(self, main_object, **kw):
@@ -186,11 +186,11 @@ class CreatePage(http.Controller, PageFormMixin):
             msg = {
                 'type': 'warning',
                 'title': 'Note:',
-                'msg': _(u'No description for this page yet. '
-                         u'You see this because you can edit this page. '
-                         u'A brief description can be useful '
-                         u'to show a summary of this content '
-                         u'in many views (like listing or homepage).'),
+                'msg': _('No description for this page yet. '
+                         'You see this because you can edit this page. '
+                         'A brief description can be useful '
+                         'to show a summary of this content '
+                         'in many views (like listing or homepage).'),
             }
             self.add_status_message(msg)
 
@@ -205,13 +205,13 @@ class EditPage(http.Controller, PageFormMixin):
     status_message_success = {
         'type': 'info',
         'title': 'Info:',
-        'msg': _(u'Page updated.'),
+        'msg': _('Page updated.'),
     }
 
     def _check_security(self, main_object):
         if request.website and \
                 not request.website.cms_can_edit(main_object):
-            raise Forbidden(_(u'You are not allowed to edit this page!'))
+            raise Forbidden(_('You are not allowed to edit this page!'))
 
     @http.route([
         '/cms/<secure_model("cms.page"):main_object>/edit-page',
@@ -239,10 +239,10 @@ class EditPage(http.Controller, PageFormMixin):
             msg = {
                 'type': 'warning',
                 'title': 'Note:',
-                'msg': _(u'No description for this page yet. '
-                         u'You see this because you can edit this page. '
-                         u'A brief description can be useful '
-                         u'to show a summary of this content '
-                         u'in many views (like listing or homepage).'),
+                'msg': _('No description for this page yet. '
+                         'You see this because you can edit this page. '
+                         'A brief description can be useful '
+                         'to show a summary of this content '
+                         'in many views (like listing or homepage).'),
             }
             self.add_status_message(msg)

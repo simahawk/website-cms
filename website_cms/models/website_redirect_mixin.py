@@ -28,7 +28,7 @@ class WebsiteRedirectMixin(models.AbstractModel):
     redirect_to_id = fields.Many2one(
         string='Redirect to',
         comodel_name='cms.redirect',
-        help=(u"If valued, you will be redirected "
+        help=("If valued, you will be redirected "
               u"to selected item permanently."),
         domain=[('create_date', '=', False)]
     )
@@ -125,6 +125,6 @@ class CMSRedirect(models.Model):
     @api.model
     def _selection_status(self):
         return [
-            (u'301', _(u"301 Moved Permanently")),
-            (u'307', _(u"307 Temporary Redirect")),
+            ('301', _("301 Moved Permanently")),
+            ('307', _("307 Temporary Redirect")),
         ]
