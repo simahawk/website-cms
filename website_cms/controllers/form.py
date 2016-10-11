@@ -14,7 +14,6 @@ from .main import ContextAwareMixin
 
 
 class PageFormMixin(ContextAwareMixin):
-
     """CMS page Form controller."""
 
     form_name = ''
@@ -133,7 +132,6 @@ class PageFormMixin(ContextAwareMixin):
 
 
 class CreatePage(http.Controller, PageFormMixin):
-
     """CMS page create controller."""
 
     form_name = 'add-page'
@@ -198,7 +196,6 @@ class CreatePage(http.Controller, PageFormMixin):
 
 
 class EditPage(http.Controller, PageFormMixin):
-
     """CMS page edit controller."""
 
     form_name = 'edit-page'
@@ -252,7 +249,6 @@ class EditPage(http.Controller, PageFormMixin):
 
 
 class ManageMedia(http.Controller, PageFormMixin):
-
     """CMS media manage controller."""
 
     form_name = 'manage-media'
@@ -272,9 +268,6 @@ class ManageMedia(http.Controller, PageFormMixin):
             defaults['parent_id'] = main_object.id
             defaults['form_action'] = \
                 main_object.website_url + '/' + self.form_name
-            for fname in ('type_id', 'view_id'):
-                fvalue = getattr(main_object, 'sub_page_' + fname)
-                defaults[fname] = fvalue and fvalue.id or False
             defaults[
                 'media_categories'] = request.website.get_media_categories()
             defaults['media'] = request.website.get_media(

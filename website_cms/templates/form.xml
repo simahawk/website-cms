@@ -155,7 +155,13 @@ We load each field explicitely here for now.
       <ul class="nav nav-tabs nav-justified mt32">
           <li role="presentation" class="active"><a t-att-href="website.cms_media_categ_links(main_object=main_object)">All</a></li>
         <t t-foreach="media_categories" t-as="category">
-          <li role="presentation"><a t-att-href="website.cms_media_categ_links(main_object=main_object, category=category)" t-field="category.name"></a></li>
+          <li role="presentation">
+            <a t-att-href="website.cms_media_categ_links(main_object=main_object, category=category)">
+              <i t-translation="off" t-att-class="category.icon" />
+              <span t-field="category.name"/>
+            </a>
+              
+          </li>
         </t>
       </ul>
     
