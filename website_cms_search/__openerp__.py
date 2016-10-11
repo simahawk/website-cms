@@ -16,6 +16,7 @@
         'website_cms',
     ],
     "data": [
+        "templates/assets.xml",
         "templates/search.xml",
     ],
 }
