@@ -138,11 +138,14 @@ class CreatePage(http.Controller, PageFormMixin):
     form_title = _('Add page')
     form_mode = 'create'
     template = 'website_cms.page_form'
-    status_message_success = {
-        'type': 'info',
-        'title': 'Info:',
-        'msg': _('Page created.'),
-    }
+
+    @property
+    def status_message_success(self):
+        return {
+            'type': 'info',
+            'title': _('Info:'),
+            'msg': _('Page created.'),
+        }
 
     def load_defaults(self, main_object, **kw):
         """Override to preload values."""
@@ -202,11 +205,14 @@ class EditPage(http.Controller, PageFormMixin):
     form_title = _('Edit page')
     form_mode = 'write'
     template = 'website_cms.page_form'
-    status_message_success = {
-        'type': 'info',
-        'title': 'Info:',
-        'msg': _('Page updated.'),
-    }
+
+    @property
+    def status_message_success(self):
+        return {
+            'type': 'info',
+            'title': _('Info:'),
+            'msg': _('Page updated.'),
+        }
 
     def _check_security(self, main_object):
         if request.website and \
@@ -238,7 +244,7 @@ class EditPage(http.Controller, PageFormMixin):
         if not main_object.description:
             msg = {
                 'type': 'warning',
-                'title': 'Note:',
+                'title': _('Note:'),
                 'msg': _('No description for this page yet. '
                          'You see this because you can edit this page. '
                          'A brief description can be useful '
