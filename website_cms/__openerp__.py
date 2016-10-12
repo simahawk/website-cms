@@ -17,6 +17,7 @@
     "data": [
         # security
         'security/groups.xml',
+        'security/ir_rule.xml',
         'security/ir.model.access.csv',
         # data
         "data/page_types.xml",

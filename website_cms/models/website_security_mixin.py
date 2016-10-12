@@ -110,7 +110,7 @@ class WebsiteSecurityMixin(models.AbstractModel):
         return check1
 
     @api.model
-    def _search(self, args, offset=0, limit=None,
+    def _BAD_search(self, args, offset=0, limit=None,
                 order=None, count=False, access_rights_uid=None):
         """Implement security check based on `website_published`
         and `view_group_ids`.
