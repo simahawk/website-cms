@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-# Copyright 2017 Simone Orsi
-# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import models, tools
+from openerp import models, tools
 
 testing = tools.config.get('test_enable')
 

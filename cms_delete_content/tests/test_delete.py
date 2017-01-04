@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright 2017 Simone Orsi
-# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
-
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import werkzeug
 from lxml import html
@@ -9,7 +8,7 @@ import mock
 import json
 from contextlib import contextmanager
 
-from odoo.tests.common import HttpCase
+from openerp.tests.common import HttpCase
 from ..controllers import main
 
 IMPORT = 'openerp.addons.cms_delete_content.controllers.main'

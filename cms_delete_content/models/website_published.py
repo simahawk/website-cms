@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-# Copyright 2017 Simone Orsi
-# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+# Copyright 2017 Camptocamp
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
 
-
-from odoo import api, fields, models, _
+from openerp import api, fields, models, _
 
 
 class WebsitePublishedMixin(models.AbstractModel):
