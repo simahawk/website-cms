@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-# Copyright 2017 Simone Orsi
-# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
-
-from odoo import models, api, _
-from odoo.http import request
+# © 2017 Camptocamp SA
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+from openerp import models, api, _
+from openerp.http import request
 
 
 class Website(models.Model):
