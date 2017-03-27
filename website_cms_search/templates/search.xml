@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template id="page_search" name="Search">
+
+  <t t-call="website.layout">
+
+    <div class="cms-search-wrapper" contenteditable="false">
+      <t t-set="search_text" t-value="request.params.get('search_text', '')" />
+
+      <form t-att-action="form_action or '/cms/search'" method="GET">
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="input-group">
+              <input type="text" class="form-control"
+                     placeholder="Search for..."
+                     name="search_text"
+                     t-att-value="search_text"
+                     required="1"
+                     />
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="submit">Go!</button>
+              </span>
+            </div><!-- /input-group -->
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+
+      </form>
+
+      <div class="results">
+
+        <t t-if="search_text and not has_results">
+          <t t-if="min_search_len_ok">
+            <p class="no-items">No results.</p>
+          </t>
+          <t t-if="not min_search_len_ok">
+            <p class="no-min-chars"><span>Minimum number of input chars:</span> <t t-esc="min_search_len" /></p>
+          </t>
+        </t>
+        <t t-if="search_text and has_results">
+          <t t-foreach="paginated.results" t-as="item">
+            <div class="row">
+              <div class="col-md-12">
+                <dl class="results-item">
+                  <dt>
+                    <a t-att-href="item.website_url" class="name" t-esc="item.name" />
+                  </dt>
+                  <dd class="info">
+                    <p class="published-on">
+                      <em><small>Published on <span t-field="item.published_date" /></small></em>
+                    </p>
+                    <t t-if="item.description">
+                      <p class="description text-muted" t-field="item.description" />
+                    </t>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </t>
+          <t t-call="website_cms.paginated_nav" />
+        </t>
+
+      </div>
+    </div>
+  </t>
+
+</template>
+<template id="add_search_link" inherit_id="website_cms.cms_user_actions" name="Add Search Link">
+  <xpath expr="//li[last()]" position="after">
+    <li class="search search-page ml16" groups="base.group_website_designer">
+      <a class="btn btn-link btn-xs"
+         href="/cms/search">
+         <i class="fa fa-search" /> Search Page</a>
+    </li>
+  </xpath>
+</template>
+
+</odoo>

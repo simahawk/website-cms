@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="cms_search_assets_frontend" inherit_id="website_cms.cms_assets_frontend" name="CMS Assets Frontend">
+        <xpath expr="//script[@src='/website_cms/static/src/js/test_website_cms.js']" position="after">
+            <script src="/website_cms_search/static/src/js/test_website_cms_search.js" type="text/javascript"/>
+        </xpath>
+    </template>
+</odoo>

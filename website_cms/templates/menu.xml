@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!-- User Navbar -->
+
+<template id="add_cms_user_actions" inherit_id="website.user_navbar">
+
+  <xpath expr="//ul[@id='oe_editzone']" position="after">
+    <t t-call="website_cms.cms_user_actions" />
+  </xpath>
+
+</template>
+
+
+<template id="cms_user_actions">
+
+  <ul class="cms-main-menu ml8 nav navbar-nav hidden-xs">
+    <t t-if="website.is_cms_page(main_object)">
+      <t t-if="website.cms_can_edit(main_object=main_object)">
+        <li class="edit edit-frontend ml16">
+          <a title="Edit metadata (name, description, etc)" class="btn btn-link btn-xs"
+             t-att-href="website.cms_edit_link(main_object=main_object)">
+            <i t-translation="off" class="fa fa-pencil-square-o" /> Metadata</a>
+        </li>
+      </t>
+      <li class="edit edit-backend" groups="website_cms.cms_manager">
+        <a title="Edit in backend (do everything trough backend)" class="btn btn-link btn-xs"
+           t-att-href="website.cms_edit_backend_link(main_object=main_object)">
+          <i t-translation="off" class="fa fa-pencil-square-o" /> Backend</a>
+      </li>
+    </t>
+    <li class="add add-page ml16" groups="base.group_website_designer">
+      <a class="btn btn-link btn-xs" data-action="add_page"
+         t-att-href="website.cms_add_link(main_object=main_object)">
+         <i t-translation="off" class="fa fa-plus-square-o" /> Add CMS Page</a>
+    </li>
+  </ul>
+
+</template>
+
+</odoo>

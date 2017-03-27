@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template id="sidebar_editable" name="CMS sidebar editable">
+
+  <!-- Make `sidebar_content` editable ;) -->
+  <div id="sidebar_content"
+       t-field="main_object.sidebar_content"
+       class="oe_structure"
+       />
+
+</template>
+
+<!-- enable view for cms sidebar -->
+<record id="website_cms.sidebar_editable" model="ir.ui.view">
+  <field name="cms_sidebar" eval="1" />
+</record>
+
+
+<template id="sidebar_rendering" name="CMS sidebar rendering">
+
+
+  <t t-if="website.safe_hasattr(main_object, 'sidebar_view_ids')">
+    <!--
+      main_object.sidebar_view_ids => throws an error
+      since there's no safe "hasattr" when evaluating
+
+      QWebException: "'NoneType' object is not callable" while evaluating
+      "main_object and getattr(main_object, 'sidebar_view_ids', None)"
+    -->
+
+    <t t-foreach="main_object.sidebar_view_ids" t-as="view">
+      <t t-call="#{ view.key }" />
+    </t>
+
+    <t t-if="request.debug">
+      <div class="debug">
+        <div class="alert alert-warning" role="alert">
+          <strong>Debug mode ON</strong>
+          <br />
+          <t t-if="main_object.sidebar_view_ids">
+            <h5>Views assigned here on main_object</h5>
+            <ul>
+              <t t-foreach="main_object.sidebar_view_ids" t-as="view">
+                <li><small t-esc="view.key" /></li>
+              </t>
+            </ul>
+          </t>
+          <t t-if="not main_object.sidebar_view_ids">
+            <h5>No view assigned here on main_object</h5>
+          </t>
+        </div>
+      </div>
+    </t>
+  </t>
+</template>
+
+</odoo>

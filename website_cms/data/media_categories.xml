@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo noupdate="1">
+
+
+<record id="media_category_document" model="cms.media.category">
+    <field name="name">Document</field>
+    <field name="icon">fa fa-file-o</field>
+    <field name="mimetypes">
+text/plain
+application/pdf
+application/msword
+application/vnd.openxmlformats-officedocument.wordprocessingml.document
+application/vnd.ms-powerpointtd
+application/vnd.openxmlformats-officedocument.presentationml.slideshow
+application/vnd.openxmlformats-officedocument.presentationml.presentation
+    </field>
+</record>
+
+
+<record id="media_category_image" model="cms.media.category">
+    <field name="name">Image</field>
+    <field name="icon">fa fa-file-image-o</field>
+</record>
+
+
+<record id="media_category_audio" model="cms.media.category">
+    <field name="name">Audio</field>
+    <field name="icon">fa fa-file-audio-o</field>
+</record>
+
+
+<record id="media_category_video" model="cms.media.category">
+    <field name="name">Video</field>
+    <field name="icon">fa fa-file-video-o</field>
+</record>
+
+
+<record id="media_category_archive" model="cms.media.category">
+    <field name="name">Archive</field>
+    <field name="icon">fa fa-file-archive-o</field>
+    <field name="mimetypes">
+application/x-gzip
+application/zip
+application/x-compressed-zip
+application/x-tar
+    </field>
+</record>
+
+</odoo>
