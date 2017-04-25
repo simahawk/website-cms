@@ -66,7 +66,9 @@
 
     <t t-set="form_fields" t-value="form.form_fields()" />
 
-    <t t-call="#{ form.form_fields_template }" />
+    <!-- FIXME: TMP patch for v10 that does not compile this from variables -->
+    <!-- <t t-call="#{ form.form_fields_template }" /> -->
+    <t t-call="cms_form.base_form_fields" />
 
     <div class="col-sm-9 col-sm-offset-3 above-controls">
         <!-- you can style required fields like this:
@@ -79,7 +81,9 @@
             </div>
         </t>
     </div>
-    <t t-call="#{ form.form_buttons_template }" />
+    <!-- FIXME: TMP patch for v10 that does not compile this from variables -->
+    <!-- <t t-call="#{ form.form_buttons_template }" /> -->
+    <t t-call="cms_form.base_form_buttons" />
 
   </form>
 
@@ -89,7 +93,8 @@
 
   <div class="form-group form-controls">
     <div class="col-sm-9 col-sm-offset-3">
-      <a class="btn btn-default" t-att-href="form.form_cancel_url()">Cancel</a>
+      <!-- FIXME: TMP patch for v10 that does not compile this from variables: this does not work w/ search forms -->
+      <!-- <a class="btn btn-default" t-att-href="form.form_cancel_url()">Cancel</a> -->
       <button type="submit" class="btn btn-primary">Submit</button>
     </div>
   </div>
@@ -100,7 +105,9 @@
           inherit_id="cms_form.form_wrapper" primary="True">
 
   <xpath expr="//t[@t-raw]" position="after">
-    <t t-call="#{ form.form_search_results_template }" />
+      <!-- FIXME: TMP patch for v10 that does not compile this from variables -->
+      <!-- <t t-call="#{ form.form_search_results_template }" /> -->
+      <t t-call="cms_form.search_results" />
   </xpath>
 
 </template>
