@@ -125,7 +125,10 @@ class CMSFormMixin(models.AbstractModel):
 
     @property
     def form_model(self):
-        return self.env[self._form_model]
+        # be defensive here: someone might want to inspect this attribute
+        # in a _register_hook whereas the model could not be in place yet.
+        # See `queue_job` for v10 for instance.
+        return self.env.get(self._form_model)
 
     # TODO: cache fields per form instance?
     # if we do it we must take into account
