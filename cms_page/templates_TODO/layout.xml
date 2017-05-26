@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+  <template
+    id="layout"
+    name="CMS layout"
+    inherit_id="website.layout">
+
+    <xpath expr="//head/t[@t-if='request and request.website_multilang and website']" position="replace">
+        <t t-call="website_cms.alternate_languages" />
+    </xpath>
+
+  </template>
+
+  <template id="add_status_message" inherit_id="website.layout">
+    <xpath expr="//main" position="before">
+      <t t-call="website_cms.status_message" />
+    </xpath>
+  </template>
+
+  <template id="add_mgmt_actions" inherit_id="website.layout">
+    <xpath expr="//main" position="before">
+      <!--
+        we need this check here, since ir.ui.view (and potentially other models)
+        do not have `website_published` attribute that is used
+        by management actions for publishing/unpublishing contents.
+      -->
+      <t t-if="website.safe_hasattr(main_object, 'website_published')">
+        <t t-call="website_cms.mgmt_actions" />
+      </t>
+    </xpath>
+  </template>
+
+</odoo>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!-- TODO: load fields automatically based on form schema.
+
+Yes, ODOO has no form facilities in this regards, but we should have one ;)
+
+We load each field explicitely here for now.
+ -->
+<template id="page_form" name="CMS Page Form">
+
+  <t t-call="website.layout">
+
+    <t t-set="title" t-value="view.form_title" />
+
+    <h2>
+      <span class="form_title" t-esc="view.form_title" />
+    </h2>
+
+    <!-- we can override default action via form values: check form controller -->
+    <form
+      t-att-action="form_action or '/cms/add-page'"
+      method="POST"
+      t-attf-class="container-fluid mt32 page-form #{view.form_mode}-mode"
+      enctype="multipart/form-data">
+
+      <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+      <div class="form-group form-field mt8 field-name">
+        <label class="col-md-3 col-sm-4 control-label" for="name">Name</label>
+        <input type="text"
+          class="form-control o_website_form_input"
+          name="name"
+          t-att-value="name"
+          required="1"
+          />
+      </div>
+
+      <div class="form-group form-field mt8 field-description">
+        <label class="col-md-3 col-sm-4 control-label" for="description">Description</label>
+        <textarea
+          class="form-control o_website_form_input"
+          name="description"
+          t-esc="description"></textarea>
+        <p class="help-block">
+          Description might be useful in many views, especially listing views
+          to show a brief summary of the content.<br />
+          This image might not be used in the view of the item,
+          this will depend on you website design.
+        </p>
+      </div>
+
+      <div class="form-group form-field mt8 field-image">
+        <label class="col-md-3 col-sm-4 control-label" for="image">Lead image</label>
+        <input
+            type="file"
+            capture="camera"
+            accept="image/*"
+            id="image"
+            name="image"
+            class="form-control o_website_form_input"
+            />
+        <p class="help-block">
+          This image could be used for landing pages and listing views
+          to present a content with a specific image. <br />
+          This image might not be used in the view of the item,
+          this will depend on you website design.
+        </p>
+        <t t-if="has_image">
+          <div class="preview image-preview mt8">
+            <img t-att-src="website.safe_image_url(main_object, 'image_thumb')" />
+          </div>
+          <t t-set="prefix" t-value="'image'" />
+          <div t-attf-id="#{prefix}_keepbox" class="row keepbox">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input
+                            type="radio"
+                            t-attf-id="#{prefix}_keepcheck_yes"
+                            t-attf-name="#{prefix}_keepcheck"
+                            checked="1"
+                            value="yes"
+                            />
+                        <label
+                            t-attf-for="#{prefix}_keepcheck_yes">
+                            keep submitted
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <input
+                            type="radio"
+                            t-attf-id="#{prefix}_keepcheck_no"
+                            t-attf-name="#{prefix}_keepcheck"
+                            value="no"
+                            />
+                        <label
+                            t-attf-for="#{prefix}_keepcheck_no">
+                            replace submitted
+                        </label>
+                    </div>
+                </div>
+          </div>
+        </t>
+
+      </div>
+
+
+      <div class="form-group form-field mt8 field-tag_ids">
+        <label class="col-md-2 col-sm-3 control-label" for="tags">Tags</label>
+        <!-- make sure you keep a fake `value` attribute
+        otherwise `initSelection` mechanism won't work.
+        See http://select2.github.io/select2/#initSelection -->
+        <input type="text" name="tag_ids" class="form-control js_select2" style="clear:both"
+               t-att-data-can-create="is_cms_manager and 1 or None"
+               placeholder="Tags" t-attf-data-init-value="#{tag_ids}" value="tags go here" />
+      </div>
+
+      <div class="form-group mt32">
+        <div class="pull-right">
+          <a class="btn btn-default" t-att-href="request.httprequest.referrer">Cancel</a>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+
+    </form>
+  </t>
+
+</template>
+
+</odoo>

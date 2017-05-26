@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.module.category" id="module_categ_cms_security">
+        <field name="name">CMS Management</field>
+        <field name="visible" eval="0" />
+    </record>
+
+    <record id="cms_manager" model="res.groups">
+      <field name="name">CMS Manager</field>
+      <field name="users" eval="[(4, ref('base.user_root'))]"/>
+      <field name="implied_ids" eval="[(4, ref('base.group_website_designer'))]"/>
+      <field name="category_id" ref="module_categ_cms_security" />
+    </record>
+
+    <record id="cms_media_category_manager" model="res.groups">
+      <field name="name">CMS Media Category Manager</field>
+      <field name="users" eval="[(4, ref('base.user_root'))]"/>
+      <field name="category_id" ref="module_categ_cms_security" />
+    </record>
+
+</odoo>

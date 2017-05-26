@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- prevent access to not published objects -->
+        <record model="ir.rule" id="website_cms_page_published">
+            <field name="name">Page public</field>
+            <field name="model_id" ref="model_cms_page"/>
+            <field name="domain_force">[('website_published', '=', True)]</field>
+        </record>
+
+    </data>
+</openerp>

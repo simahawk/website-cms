@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <template id="website.publish_management">
+
+    <!-- we do not want additional dropdown for cms.page -->
+    <!--
+    this was supposed to work (tested w/ chrome) but looks like odoo does not accept it :S rewrite everything...
+      <xpath expr="//button[contains(@class, 'dropdown-toggle')]/following-sibling::ul" position="replace" />
+    -->
+    <div groups="base.group_website_publisher" t-ignore="true" class="pull-right css_editable_mode_hidden" t-att-style="style or ''">
+        <div t-attf-class="btn-group js_publish_management #{object.website_published and 'css_published' or 'css_unpublished'}"
+             t-att-data-id="object.id" t-att-data-object="object._name" t-att-data-controller="publish_controller">
+            <button class="btn btn-danger js_publish_btn">Not Published</button>
+            <button class="btn btn-success js_publish_btn">Published</button>
+            <t t-if="object and not object._name == 'cms.page'">
+              <button type="button" t-attf-class="btn btn-default dropdown-toggle" t-att-id="'dopprod-%s' % object.id" data-toggle="dropdown">
+                  <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu" t-att-aria-labelledby="'dopprod-%s' % object.id">
+                  <t t-raw="0"/>
+                  <li t-if="publish_edit">
+                      <a t-attf-href="/web#return_label=Website&amp;view_type=form&amp;model=#{object._name}&amp;id=#{object.id}&amp;action=#{action}"
+                      title='Edit in backend'>Edit</a>
+                  </li>
+              </ul>
+            </t>
+        </div>
+    </div>
+  </template>
+
+  <template id="mgmt_actions" name="Management actions">
+    <t t-if="not cms_form_mode">
+      <div class="mgmt-actions">
+
+        <div id="website_published_button">
+          <t t-call="website.publish_management">
+            <t t-set="object" t-value="main_object"/>
+            <t t-set="publish_edit" t-value="False"/>
+            <t t-set="action" t-value="action or ''"/>
+          </t>
+        </div>
+        <t t-if="website.safe_hasattr(main_object, 'view_group_ids') and main_object.view_group_ids">
+          <small
+            groups="website_cms.cms_manager"
+            class="fa fa-user group-restrict-info danger help pull-right"
+            style="cursor:help"
+            title="Groups restrictions applied"></small>
+        </t>
+      </div>
+    </t>
+  </template>
+
+
+  <template id="alternate_languages" name="CMS alternate languages">
+    <t t-if="request and request.website_multilang and website">
+        <t t-foreach="website.get_alternate_languages(request.httprequest, main_object=main_object)" t-as="lg">
+            <link rel="alternate" t-att-hreflang="lg['hreflang']" t-att-href="lg['href']"/>
+        </t>
+    </t>
+  </template>
+
+  <template id="paginated_nav">
+    <nav class="pagination" t-if="paginated and paginated.need_nav">
+      <ul class="pagination">
+        <li t-att-class="not paginated.has_prev and 'disabled'">
+          <a class="page-action page-prev" title="previous page" aria-label="Previous"
+             t-att-href="(paginated.has_prev and paginated.page_prev.url) or False">
+            <span t-translation="off" aria-hidden="true" class="fa fa-arrow-right"></span>
+          </a>
+        </li>
+        <t t-foreach="paginated.pages" t-as="item">
+          <li t-att-class="paginated.current.num == item.num and 'disabled'">
+            <a class="page-action page-num"
+               t-att-href="(paginated.current.num != item.num and item.url) or False"
+               t-esc="item.num" />
+          </li>
+        </t>
+        <li t-att-class="not paginated.has_next and 'disabled'">
+          <a class="page-action page-next" title="next page" aria-label="Next"
+             t-att-href="(paginated.has_next and paginated.page_next.url) or False">
+            <span t-translation="off" aria-hidden="true" class="fa fa-arrow-right"></span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </template>
+
+  <template id="debug_view_info" name="CMS debug view info">
+    <t t-if="request.debug">
+      <div class="container">
+        <div class="alert alert-danger" role="alert">
+          <strong>CMS Debug info</strong>
+          <p>
+            <strong>Current view:</strong>
+            <t t-if="website.safe_hasattr(main_object, 'view_id') and main_object.view_id">
+                <t t-esc="main_object.view_id.key" /> - <t t-esc="main_object.view_id.name" />
+            </t>
+          </p>
+        </div>
+      </div>
+    </t>
+  </template>
+
+
+  <template id="status_message" name="CMS status_message">
+    <!-- TODO: handle various states (success, info, error) -->
+    <t t-if="request.session.get('status_message')">
+      <!-- pop it, so that we show msg only once! -->
+      <t t-set="status_message" t-value="request.session.pop('status_message', None)" />
+      <div class="container status_message">
+        <t t-foreach="status_message" t-as="msg">
+          <div t-attf-class="alert alert-#{msg['type']} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span t-translation="off" aria-hidden="true" class="fa fa-remove"></span>
+            </button>
+            <strong t-esc="msg['title']" />
+            <t t-esc="msg['msg']" />
+          </div>
+        </t>
+      </div>
+    </t>
+  </template>
+
+
+  <template id="context_nav_horiz" name="CMS horizontal context nav">
+    <!--
+        @param: ``container``: the page that contains the menu items.
+          Defaults to current page ``main_object``
+        @param: ``active_id``: current active item id
+        @param: ``nav_extra_klass``: add extra css classes to carousel wrapper
+    -->
+    <t t-set="container" t-value="container or main_object" />
+    <t t-set="active_id" t-value="active_id or None" />
+    <t t-set="nav_items" t-value="container.get_listing()" />
+    <t t-if="nav_items">
+      <ul t-attf-class="nav nav-pills #{nav_extra_klass}">
+        <t t-foreach="nav_items" t-as="nav_item">
+          <t t-set="item_klass"
+             t-value="nav_item.id == active_id and 'active' or ''" />
+          <t t-set="item_klass"
+             t-value="item_klass + (nav_item.website_published and ' state-published' or '')" />
+          <li role="presentation" t-att-class="item_klass">
+            <a t-att-href="nav_item.website_url"
+               t-att-title="nav_item.description or nav_item.name">
+              <t t-esc="nav_item.name">Item</t>
+            </a>
+          </li>
+        </t>
+      </ul>
+    </t>
+  </template>
+
+
+  <template id="context_nav_vert" name="CMS vertical context nav">
+    <t t-call="website_cms.context_nav_horiz">
+      <t t-set="nav_extra_klass" t-value="'nav-stacked'" />
+    </t>
+  </template>
+
+
+</odoo>
