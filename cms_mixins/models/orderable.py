@@ -24,12 +24,12 @@ class CMSOrderableMixin(models.AbstractModel):
     sequence = fields.Integer(
         'Sequence',
         required=True,
-        default=lambda self: self._default_sequence()
+        # default=lambda self: self._default_sequence()
     )
 
-    @api.model
-    def _default_sequence(self):
-        last = self.search([], limit=1, order='sequence desc')
-        if not last:
-            return 0
-        return last.sequence + 1
+    # @api.model
+    # def _default_sequence(self):
+    #     last = self.search([], limit=1, order='sequence desc')
+    #     if not last:
+    #         return 0
+    #     return last.sequence + 1

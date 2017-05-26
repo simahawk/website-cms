@@ -2,8 +2,8 @@
 # Copyright 2017 Simone Orsi
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-
-from openerp import models, fields, api
+from openerp.http import request
+from openerp import models, fields, api, SUPERUSER_ID
 from openerp.addons.website.models import ir_http
 
 from werkzeug.exceptions import NotFound
@@ -32,7 +32,7 @@ class CMSSecurityMixin(models.AbstractModel):
     )
 
     @api.model
-    def check_permission(self, obj=None, mode='view', raise_exception=False):
+    def check_permission(self, mode='view', raise_exception=False):
         """Check permission on given object.
 
         @param `obj`: the item to check.
@@ -40,7 +40,13 @@ class CMSSecurityMixin(models.AbstractModel):
 
         @param `mode`: the permission mode to check.
         """
-        obj = obj or self
+        obj = self
+        if request.session.uid:
+            obj = obj.with_env(self.env(user=request.session.uid))
+        else:
+            obj = obj.with_env(request.env)
+        if obj.env.user.id == SUPERUSER_ID:
+            return True
         try:
             obj.check_access_rights(mode)
             obj.check_access_rule(mode)

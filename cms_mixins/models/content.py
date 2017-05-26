@@ -20,10 +20,8 @@ class CMSContentMixin(models.AbstractModel):
     _description = 'CMS page content mixin'
     _order = 'sequence, id'
     _inherit = [
-        'website.seo.metadata',
-        'website.published.mixin',
         'cms.orderable.mixin',
-        'cms.coremetadata.mixin',
+        'website.published.mixin',
         'cms.security.mixin',
     ]
 
@@ -45,28 +43,32 @@ class CMSContentMixin(models.AbstractModel):
               u"should be included in main navigation."),
     )
 
-    @api.multi
-    def write(self, vals):
-        """Make sure to refresh website nav cache."""
-        self.ensure_one()
-        if 'nav_include' in vals:
-            self.env['website'].get_nav_pages.clear_caches()
-        return super(CMSContentMixin, self).write(vals)
+    # @api.multi
+    # def write(self, vals):
+    #     """Make sure to refresh website nav cache."""
+    #     self.ensure_one()
+    #     if 'nav_include' in vals:
+    #         self.env['website'].get_nav_pages.clear_caches()
+    #     return super(CMSContentMixin, self).write(vals)
+    #
+    # @api.model
+    # def create(self, vals):
+    #     """Make sure to refresh website nav cache."""
+    #     res = super(CMSContentMixin, self).create(vals)
+    #     if 'nav_include' in vals:
+    #         self.env['website'].get_nav_pages.clear_caches()
+    #     return res
 
-    @api.model
-    def create(self, vals):
-        """Make sure to refresh website nav cache."""
-        res = super(CMSContentMixin, self).create(vals)
-        if 'nav_include' in vals:
-            self.env['website'].get_nav_pages.clear_caches()
-        return res
+    @property
+    def cms_url_prefix(self):
+        return u'/cms/content/{}/'.format(self._name)
 
     @api.multi
     def _website_url(self, field_name, arg):
         """Override method defined by `website.published.mixin`."""
         res = {}
         for item in self:
-            res[item.id] = slug(item)
+            res[item.id] = self.cms_url_prefix + slug(item)
         return res
 
     @api.multi
