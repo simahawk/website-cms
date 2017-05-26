@@ -16,11 +16,18 @@ class CMSPage(models.Model):
 
     _name = 'cms.page'
     _description = 'CMS page'
-    _order = 'sequence, id'
+    # _table = 'cms_page'
     _inherit = [
         'cms.content.mixin',
-        'cms.parent.mixin',
+        'cms.coremetadata.mixin',
+        'website.seo.metadata',
+        # 'cms.parent.mixin',
     ]
+
+    @property
+    def cms_url_prefix(self):
+        return '/cms/page/'
+
     type_id = fields.Many2one(
         string='Page type',
         comodel_name='cms.page.type',
@@ -59,7 +66,7 @@ class CMSPage(models.Model):
 
     @api.model
     def _default_view_id(self):
-        page_view = self.env.ref('website_cms.page_default')
+        page_view = self.env.ref('cms_page.page_default')
         return page_view and page_view.id or False
 
     def _open_children_context(self):

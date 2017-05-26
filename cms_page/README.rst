@@ -79,7 +79,7 @@ Main features
 
 * Full text search
 
-    The extra module ``website_cms_search`` adds features for doing full text searches.
+    The extra module ``cms_page_search`` adds features for doing full text searches.
 
 
 Bug Tracker

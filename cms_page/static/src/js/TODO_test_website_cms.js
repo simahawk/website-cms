@@ -1,6 +1,6 @@
 /* Copyright 2016 OCA/oscar@vauxoo.com
  * License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). */
-odoo.define("website_cms.tour", function (require) {
+odoo.define("cms_page.tour", function (require) {
     "use strict";
 
     var Tour = require("web.Tour");

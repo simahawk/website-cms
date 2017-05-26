@@ -42,7 +42,7 @@
         </div>
         <t t-if="website.safe_hasattr(main_object, 'view_group_ids') and main_object.view_group_ids">
           <small
-            groups="website_cms.cms_manager"
+            groups="cms_page.cms_manager"
             class="fa fa-user group-restrict-info danger help pull-right"
             style="cursor:help"
             title="Groups restrictions applied"></small>
@@ -153,7 +153,7 @@
 
 
   <template id="context_nav_vert" name="CMS vertical context nav">
-    <t t-call="website_cms.context_nav_horiz">
+    <t t-call="cms_page.context_nav_horiz">
       <t t-set="nav_extra_klass" t-value="'nav-stacked'" />
     </t>
   </template>

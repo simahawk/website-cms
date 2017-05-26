@@ -35,7 +35,7 @@
         # "templates/misc.xml",
         # "templates/layout.xml",
         # "templates/menu.xml",
-        # "templates/page.xml",
+        "templates/page.xml",
         # "templates/sidebar.xml",
         # "templates/form.xml",
     ],

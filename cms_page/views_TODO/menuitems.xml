@@ -61,7 +61,7 @@
   name="CMS Admin"
   id="menu_cms_root"
   sequence="100"
-  groups="website_cms.cms_manager"
+  groups="cms_page.cms_manager"
   />
 
 <menuitem
@@ -70,7 +70,7 @@
   name="Pages"
   action="action_cms_pages"
   sequence="10"
-  groups="website_cms.cms_manager"
+  groups="cms_page.cms_manager"
   />
 
 <menuitem
@@ -79,7 +79,7 @@
   name="Redirects"
   action="action_cms_redirects"
   sequence="20"
-  groups="website_cms.cms_manager"
+  groups="cms_page.cms_manager"
   />
 
 <menuitem
@@ -88,7 +88,7 @@
   name="Media"
   action="action_cms_media"
   sequence="20"
-  groups="website_cms.cms_manager"
+  groups="cms_page.cms_manager"
   />
 
 <menuitem
@@ -97,7 +97,7 @@
   name="Media Categories"
   action="action_cms_media_categ"
   sequence="20"
-  groups="website_cms.cms_media_category_manager"
+  groups="cms_page.cms_media_category_manager"
   />
 
 </odoo>

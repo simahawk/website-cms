@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+  <template id="page_default_listing" name="Page default listing">
+    <t t-call="website.layout">
+
+      <div class="container">
+        <t t-call="cms_page.page_default_content">
+          <t t-set="show_name" t-value="True" />
+          <t t-set="show_description" t-value="True" />
+        </t>
+
+        <div class="listing">
+          <h3>Contents</h3>
+          <div class="col-md-12 mt8">
+
+            <t t-set="listing_items" t-value="main_object.get_listing()" />
+            <t t-if="not listing_items">
+              <p class="no-items">Sorry, no items to list yet.</p>
+            </t>
+
+            <ul class="list-group">
+              <t t-foreach="listing_items" t-as="item">
+                <t t-set="preview_url" t-value="website.safe_image_url(item, 'image_thumb')" />
+                <li class="list-group-item">
+                  <a class="item-link"
+                     t-att-title="item.description or item.name"
+                     t-att-href="item.website_url">
+                    <img class="item-preview"
+                       t-att-src="preview_url"
+                       t-att-alt="item.description or item.name" />
+                    <span t-field="item.name" />
+                  </a>
+                  <t t-if="not item.website_published">
+                    <span class="badge not-published">not published</span>
+                  </t>
+                </li>
+              </t>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+
+    </t>
+  </template>
+
+  <record id="cms_page.page_default_listing" model="ir.ui.view">
+    <field name="cms_view" eval="1" />
+  </record>
+
+</odoo>

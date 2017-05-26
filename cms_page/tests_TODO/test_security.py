@@ -26,7 +26,7 @@ class TestSecurity(common.TransactionCase):
         self.group_public = self.env['res.groups'].browse(
             self.ref('base.group_public'))
         self.group_mngr = self.env['res.groups'].browse(
-            self.ref('website_cms.cms_manager'))
+            self.ref('cms_page.cms_manager'))
         self.user_public = self.env['res.users'].with_context(
             {'no_reset_password': True,
              'mail_create_nosubscribe': True}

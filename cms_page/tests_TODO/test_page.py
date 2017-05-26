@@ -47,11 +47,11 @@ class TestPage(common.TransactionCase):
 
     @property
     def default_type(self):
-        return self.env.ref('website_cms.default_page_type')
+        return self.env.ref('cms_page.default_page_type')
 
     @property
     def news_type(self):
-        return self.env.ref('website_cms.news_page_type')
+        return self.env.ref('cms_page.news_page_type')
 
     def test_page_default_values(self):
         # check page types
@@ -192,10 +192,10 @@ class TestPage(common.TransactionCase):
             'News 1'
         )
 
-        # `website_cms.cms_manager` group bypasses published state
+        # `cms_page.cms_manager` group bypasses published state
         # let's drop it temporarely to avoid this.
-        cms_mngr_group = self.env.ref('website_cms.cms_manager')
-        if self.env.user.has_group('website_cms.cms_manager'):
+        cms_mngr_group = self.env.ref('cms_page.cms_manager')
+        if self.env.user.has_group('cms_page.cms_manager'):
             self.env.user.write({'groups_id': [(3, cms_mngr_group.id)]})
 
         # published/not published
@@ -217,13 +217,13 @@ class TestPage(common.TransactionCase):
             len(container.get_listing(nav=False, published=None)), 3
         )
         # restore manager group
-        if not self.env.user.has_group('website_cms.cms_manager'):
+        if not self.env.user.has_group('cms_page.cms_manager'):
             self.env.user.write({'groups_id': [(4, cms_mngr_group.id)]})
 
         # by type refs
         root_listing = self.model.get_listing(
             path='/', published=None,
-            types_ref='website_cms.news_page_type')
+            types_ref='cms_page.news_page_type')
         # by type ids
         all_news = self.model.search(
             [('type_id', '=', self.news_type.id)])

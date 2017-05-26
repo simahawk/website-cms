@@ -12,7 +12,7 @@
 </template>
 
 <!-- enable view for cms sidebar -->
-<record id="website_cms.sidebar_editable" model="ir.ui.view">
+<record id="cms_page.sidebar_editable" model="ir.ui.view">
   <field name="cms_sidebar" eval="1" />
 </record>
 

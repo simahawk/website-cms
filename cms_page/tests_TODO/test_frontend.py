@@ -7,7 +7,7 @@ from openerp.tests.common import HttpCase
 
 class UICase(HttpCase):
 
-    def test_ui_website_cms(self):
+    def test_ui_cms_page(self):
         """Test frontend tour."""
         self.phantom_js(
             "/",

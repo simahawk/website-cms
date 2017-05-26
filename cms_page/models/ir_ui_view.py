@@ -42,5 +42,5 @@ class IRUIView(models.Model):
         qcontext = super(IRUIView, self)._prepare_qcontext()
         qcontext['url_for'] = url_for
         # qcontext['is_cms_manager'] = \
-        #     self.env.user.has_group('website_cms.cms_manager')
+        #     self.env.user.has_group('cms_page.cms_manager')
         return qcontext

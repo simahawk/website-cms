@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- <template groups="base.group_website_publisher" id="cms_assets_editor" inherit_id="website.assets_editor" name="CMS Editor">
+        <xpath expr="." position="inside">
+            <script src="/cms_page/static/src/js/cms_page.js" type="text/javascript"/>
+        </xpath>
+    </template>
+    <template id="cms_assets_frontend" inherit_id="website.assets_frontend" name="CMS Assets Frontend">
+        <xpath expr="." position="inside">
+            <script src="/cms_page/static/src/js/test_cms_page.js" type="text/javascript"/>
+        </xpath>
+    </template> -->
+
+</odoo>
