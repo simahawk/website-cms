@@ -13,8 +13,8 @@ if testing:
         _name = 'testmodel.secured'
         _description = 'Secured test model'
         _inherit = [
-            'cms.security.mixin',
             'website.published.mixin',
+            'cms.security.mixin',
         ]
         _auto_security_policy = True
 

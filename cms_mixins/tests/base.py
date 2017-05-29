@@ -5,14 +5,14 @@
 from openerp import exceptions
 
 
-class BaseTestCase(object):
+class BaseSecurityTestCase(object):
     """Base klass to test your model basic permissions.
 
     Look at `ir_rules_example.xml` to know which rules you must create.
     """
 
     def setUp(self):
-        super(BaseTestCase, self).setUp()
+        super(BaseSecurityTestCase, self).setUp()
         user_model = self.env['res.users'].with_context(no_reset_password=1)
         self.user1 = user_model.create({
             'name': 'User 1 (test ref)',

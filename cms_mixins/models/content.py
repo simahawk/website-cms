@@ -21,6 +21,7 @@ class CMSContentMixin(models.AbstractModel):
     _order = 'sequence, id'
     _inherit = [
         'cms.orderable.mixin',
+        'website.published.mixin',
         'cms.coremetadata.mixin',
     ]
 

@@ -3,10 +3,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
 import openerp.tests.common as test_common
 # from openerp import exceptions
-from base import BaseTestCase
+from base import BaseSecurityTestCase
 
 
-class TestSecurity(BaseTestCase, test_common.TransactionCase):
+class TestSecurity(BaseSecurityTestCase, test_common.TransactionCase):
 
     @property
     def model(self):

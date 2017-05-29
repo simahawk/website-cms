@@ -112,6 +112,9 @@ class CMSSecurityMixin(models.AbstractModel):
                 """,
                 'active': True,
                 'perm_read': True,
+                'perm_write': False,
+                'perm_create': False,
+                'perm_unlink': False,
                 'model_id': model_id,
             },
             {
@@ -123,6 +126,9 @@ class CMSSecurityMixin(models.AbstractModel):
                 """,
                 'active': True,
                 'perm_write': True,
+                'perm_read': False,
+                'perm_create': False,
+                'perm_unlink': False,
                 'model_id': model_id,
             },
         ]
