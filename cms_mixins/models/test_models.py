@@ -11,10 +11,12 @@ if testing:
     class SecuredModel(models.Model):
 
         _name = 'testmodel.secured'
+        _description = 'Secured test model'
         _inherit = [
             'cms.security.mixin',
             'website.published.mixin',
         ]
+        _auto_security_policy = True
 
         name = fields.Char()
         image = fields.Binary(attachment=1)

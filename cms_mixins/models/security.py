@@ -2,11 +2,30 @@
 # Copyright 2017 Simone Orsi
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-from openerp.http import request
+
 from openerp import models, fields, api, SUPERUSER_ID
 from openerp.addons.website.models import ir_http
 
 from werkzeug.exceptions import NotFound
+
+import logging
+logger = logging.getLogger('[CMSSecurityMixin]')
+
+
+def add_xmlid(env, record, xmlid, noupdate=False):
+    """ Add a XMLID on an existing record """
+    if '.' in xmlid:
+        module, name = xmlid.split('.')
+    else:
+        module = ''
+        name = xmlid
+    return env['ir.model.data'].create({
+        'name': name,
+        'module': module,
+        'model': record._name,
+        'res_id': record.id,
+        'noupdate': noupdate,
+    })
 
 
 class CMSSecurityMixin(models.AbstractModel):
@@ -26,7 +45,7 @@ class CMSSecurityMixin(models.AbstractModel):
     #
     # Maybe we can enable this automatic policy w/ a flag on the class, like:
     # _auto_security_policy = True
-    
+
     view_group_ids = fields.Many2many(
         string='View Groups',
         comodel_name='res.groups',
@@ -39,6 +58,94 @@ class CMSSecurityMixin(models.AbstractModel):
         help=("Restrict `view` access to this item to specific groups. "
               u"No group means anybody can see it.")
     )
+
+    def _auto_rule_name_prefix(self):
+        return 'cms_security_auto_{}'.format(self._name.replace('.', '_'))
+
+    def _auto_get_model_id(self, cr):
+        cr.execute("select id from ir_model where model = %s", (self._name, ))
+        return cr.fetchone()[0]
+
+    def _auto_access_values(self, model_id):
+        prefix = self._auto_rule_name_prefix()
+        name = prefix + ' default'
+        xmlid = '__auto__.' + prefix + '_default'
+        values = [
+            {
+                # allow all to manage content
+                # we limit this in record rule
+                '_xmlid': xmlid,
+                'name': name,
+                'model_id': model_id,
+                'perm_create': 1,
+                'perm_read': 1,
+                'perm_write': 1,
+                'perm_unlink': 1,
+                'active': True,
+            },
+        ]
+        return values
+
+    def _auto_create_access(self, cr, model_id):
+        env = api.Environment(cr, SUPERUSER_ID, {})
+        for values in self._auto_access_values(model_id):
+            xmlid = values.pop('_xmlid')
+            if not env.ref(xmlid, raise_if_not_found=0):
+                record = env['ir.model.access'].create(values)
+                add_xmlid(env, record, xmlid)
+                logger.info('Created default ACL for %s: %s',
+                            self._name, values['name'])
+
+    def _auto_rule_values(self, model_id):
+        prefix = self._auto_rule_name_prefix()
+        descr1 = 'published and owner can view'
+        descr2 = 'only owner can write'
+        values = [
+            {
+                '_xmlid': '__auto__.{}_{}'.format(
+                    prefix, descr1.replace(' ', '_')),
+                'name': '{} {}'.format(prefix, descr1),
+                'domain_force': """
+                    ['|', ('website_published', '=', True),
+                    '&', ('create_uid','=',user.id),
+                    ('website_published', '=', False)]
+                """,
+                'active': True,
+                'perm_read': True,
+                'model_id': model_id,
+            },
+            {
+                '_xmlid': '__auto__.{}_{}'.format(
+                    prefix, descr2.replace(' ', '_')),
+                'name': '{} {}'.format(prefix, descr2),
+                'domain_force': """
+                    [('create_uid','=',user.id)]
+                """,
+                'active': True,
+                'perm_write': True,
+                'model_id': model_id,
+            },
+        ]
+        return values
+
+    def _auto_create_rule(self, cr, model_id):
+        env = api.Environment(cr, SUPERUSER_ID, {})
+        for values in self._auto_rule_values(model_id):
+            xmlid = values.pop('_xmlid')
+            if not env.ref(xmlid, raise_if_not_found=0):
+                record = env['ir.rule'].create(values)
+                add_xmlid(env, record, xmlid)
+                logger.info('Created default record rule for %s: %s',
+                            self._name, values['name'])
+
+    _auto_security_policy = False
+
+    def _setup_complete(self, cr, uid):
+        if self._auto_security_policy and self._auto:
+            model_id = self._auto_get_model_id(cr)
+            self._auto_create_access(cr, model_id)
+            self._auto_create_rule(cr, model_id)
+        return super(CMSSecurityMixin, self)._setup_complete(cr, uid)
 
     @api.model
     def check_permission(self, mode='view', raise_exception=False):

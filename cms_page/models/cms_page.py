@@ -19,14 +19,14 @@ class CMSPage(models.Model):
     # _table = 'cms_page'
     _inherit = [
         'cms.content.mixin',
-        'cms.coremetadata.mixin',
-        'website.seo.metadata',
+        'cms.security.mixin',
         # 'cms.parent.mixin',
     ]
-
-    @property
-    def cms_url_prefix(self):
-        return '/cms/page/'
+    # FIXME weird: this flag should be set by `models.Model`
+    # but for some reason, in security mixin
+    # in `_setup_complete` this flag is false...
+    _auto = True
+    _auto_security_policy = True
 
     type_id = fields.Many2one(
         string='Page type',
