@@ -4,8 +4,8 @@
 
 import werkzeug
 
-from odoo import http, _
-from odoo.http import request
+from openerp import http, _
+from openerp.http import request
 
 
 class FormControllerMixin(object):

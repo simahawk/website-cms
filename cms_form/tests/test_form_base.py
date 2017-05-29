@@ -5,7 +5,7 @@
 
 from werkzeug.wrappers import Request
 
-from odoo import http
+from openerp import http
 
 from .common import fake_request, FormTestCase
 

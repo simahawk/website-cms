@@ -5,7 +5,7 @@
 import werkzeug
 from psycopg2 import IntegrityError
 
-from odoo import models, exceptions, _
+from openerp import models, exceptions, _
 
 
 class CMSForm(models.AbstractModel):
