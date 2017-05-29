@@ -18,6 +18,15 @@ class CMSSecurityMixin(models.AbstractModel):
     # TODO: add record rules automatically
     # When an object inherits form this mixin
     # we should create record rules for the real model.
+    # The rules should check:
+    # * owner
+    # * published/unpublished
+    # * view_group_ids
+    # * write_group_ids
+    #
+    # Maybe we can enable this automatic policy w/ a flag on the class, like:
+    # _auto_security_policy = True
+    
     view_group_ids = fields.Many2many(
         string='View Groups',
         comodel_name='res.groups',
