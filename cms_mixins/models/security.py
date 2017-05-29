@@ -4,6 +4,7 @@
 
 
 from openerp import models, fields, api, SUPERUSER_ID
+from openerp.http import request
 from openerp.addons.website.models import ir_http
 
 from werkzeug.exceptions import NotFound
@@ -60,25 +61,26 @@ class CMSSecurityMixin(models.AbstractModel):
     )
 
     def _auto_rule_name_prefix(self):
+        """Return name prefix for automatic rules."""
         return 'cms_security_auto_{}'.format(self._name.replace('.', '_'))
 
     def _auto_get_model_id(self, cr):
+        """Return ID for current model for automatic rules."""
         cr.execute("select id from ir_model where model = %s", (self._name, ))
         return cr.fetchone()[0]
 
-    def _auto_access_values(self, model_id):
+    def _auto_access_values(self, model_id, env):
+        """Return automatic ACL rules values."""
         prefix = self._auto_rule_name_prefix()
-        name = prefix + ' default'
-        xmlid = '__auto__.' + prefix + '_default'
         values = [
             {
                 # allow all to manage content
                 # we limit this in record rule
-                '_xmlid': xmlid,
-                'name': name,
+                '_xmlid': '__auto__.' + prefix + '_all',
+                'name': prefix + ' all',
                 'model_id': model_id,
-                'perm_create': 1,
                 'perm_read': 1,
+                'perm_create': 1,
                 'perm_write': 1,
                 'perm_unlink': 1,
                 'active': True,
@@ -87,8 +89,9 @@ class CMSSecurityMixin(models.AbstractModel):
         return values
 
     def _auto_create_access(self, cr, model_id):
+        """Create automatic ACL."""
         env = api.Environment(cr, SUPERUSER_ID, {})
-        for values in self._auto_access_values(model_id):
+        for values in self._auto_access_values(model_id, env):
             xmlid = values.pop('_xmlid')
             if not env.ref(xmlid, raise_if_not_found=0):
                 record = env['ir.model.access'].create(values)
@@ -96,19 +99,24 @@ class CMSSecurityMixin(models.AbstractModel):
                 logger.info('Created default ACL for %s: %s',
                             self._name, values['name'])
 
-    def _auto_rule_values(self, model_id):
+    def _auto_rule_values(self, model_id, env):
+        """Return automatic record rules values."""
         prefix = self._auto_rule_name_prefix()
         descr1 = 'published and owner can view'
         descr2 = 'only owner can write'
+        descr3 = 'allowed groups can view (view_group_ids)'
+        descr4 = 'allowed groups can write (write_group_ids)'
         values = [
             {
                 '_xmlid': '__auto__.{}_{}'.format(
                     prefix, descr1.replace(' ', '_')),
                 'name': '{} {}'.format(prefix, descr1),
                 'domain_force': """
-                    ['|', ('website_published', '=', True),
-                    '&', ('create_uid','=',user.id),
-                    ('website_published', '=', False)]
+                    ['|',
+                     ('website_published', '=', True),
+                     '&', ('create_uid','=',user.id),
+                          ('website_published', '=', False)
+                    ]
                 """,
                 'active': True,
                 'perm_read': True,
@@ -116,6 +124,10 @@ class CMSSecurityMixin(models.AbstractModel):
                 'perm_create': False,
                 'perm_unlink': False,
                 'model_id': model_id,
+                'groups': [
+                    (4, env.ref('base.group_portal').id),
+                    (4, env.ref('base.group_public').id),
+                ],
             },
             {
                 '_xmlid': '__auto__.{}_{}'.format(
@@ -128,15 +140,58 @@ class CMSSecurityMixin(models.AbstractModel):
                 'perm_write': True,
                 'perm_read': False,
                 'perm_create': False,
+                'perm_unlink': True,
+                'model_id': model_id,
+                'groups': [
+                    (4, env.ref('base.group_portal').id),
+                    (4, env.ref('base.group_public').id),
+                ],
+            },
+            {
+                '_xmlid': '__auto__.{}_{}'.format(
+                    prefix, descr3.replace(' ', '_')),
+                'name': '{} {}'.format(prefix, descr3),
+                'domain_force': """
+                    [('view_group_ids', '!=', False),
+                     ('view_group_ids', 'in', user.groups_id.ids),]
+                """,
+                'active': True,
+                'perm_write': False,
+                'perm_read': True,
+                'perm_create': False,
                 'perm_unlink': False,
                 'model_id': model_id,
+                'groups': [
+                    (4, env.ref('base.group_portal').id),
+                    (4, env.ref('base.group_public').id),
+                ],
+            },
+            {
+                '_xmlid': '__auto__.{}_{}'.format(
+                    prefix, descr4.replace(' ', '_')),
+                'name': '{} {}'.format(prefix, descr4),
+                'domain_force': """
+                    [('write_group_ids', '!=', False),
+                     ('write_group_ids', 'in', user.groups_id.ids),]
+                """,
+                'active': True,
+                'perm_write': True,
+                'perm_read': False,
+                'perm_create': False,
+                'perm_unlink': False,
+                'model_id': model_id,
+                'groups': [
+                    (4, env.ref('base.group_portal').id),
+                    (4, env.ref('base.group_public').id),
+                ],
             },
         ]
         return values
 
     def _auto_create_rule(self, cr, model_id):
+        """Create automatic record rules."""
         env = api.Environment(cr, SUPERUSER_ID, {})
-        for values in self._auto_rule_values(model_id):
+        for values in self._auto_rule_values(model_id, env):
             xmlid = values.pop('_xmlid')
             if not env.ref(xmlid, raise_if_not_found=0):
                 record = env['ir.rule'].create(values)
@@ -147,6 +202,7 @@ class CMSSecurityMixin(models.AbstractModel):
     _auto_security_policy = False
 
     def _setup_complete(self, cr, uid):
+        """Override to handle automatic security."""
         if self._auto_security_policy and self._auto:
             model_id = self._auto_get_model_id(cr)
             self._auto_create_access(cr, model_id)
@@ -155,7 +211,7 @@ class CMSSecurityMixin(models.AbstractModel):
 
     @api.model
     def check_permission(self, mode='view', raise_exception=False):
-        """Check permission on given object.
+        """Check permission on given object on both ACL and rules.
 
         @param `obj`: the item to check.
         If not `obj` is passed `self` will be used.

@@ -8,8 +8,13 @@ from openerp import exceptions
 class BaseSecurityTestCase(object):
     """Base klass to test your model basic permissions.
 
-    Look at `ir_rules_example.xml` to know which rules you must create.
+    You can reuse this to test all your models' access.
+    Just provide a proper `model` property.
     """
+
+    @property
+    def model(self):
+        raise NotImplementedError()
 
     def setUp(self):
         super(BaseSecurityTestCase, self).setUp()
@@ -39,10 +44,6 @@ class BaseSecurityTestCase(object):
             'groups_id': [(6, 0, [self.group_public.id])]}
         )
 
-    @property
-    def model(self):
-        raise NotImplementedError()
-
     def test_perm_create(self):
         ref = self.model.sudo(self.user1.id).create({'name': 'Foo'})
         self.assertTrue(self.model.browse(ref.id))
@@ -59,6 +60,8 @@ class BaseSecurityTestCase(object):
         ref = self.model.sudo(self.user2.id).create({'name': 'Foo 2'})
         with self.assertRaises(exceptions.AccessError):
             ref.sudo(self.user1.id).name = 'cannot do this!'
+        with self.assertRaises(exceptions.AccessError):
+            ref.sudo(self.user_public.id).name = 'cannot do this!'
 
     def test_delete(self):
         ref = self.model.sudo(self.user1.id).create({'name': 'Foo'})
@@ -81,6 +84,8 @@ class BaseSecurityTestCase(object):
         ref = self.model.sudo(self.user1.id).create({'name': 'Foo'})
         with self.assertRaises(exceptions.AccessError):
             ref.sudo(self.user2.id).unlink()
+        with self.assertRaises(exceptions.AccessError):
+            ref.sudo(self.user_public.id).unlink()
 
     def test_published(self):
         ref = self.model.sudo(self.user1.id).create({'name': 'Foo'})
@@ -101,3 +106,32 @@ class BaseSecurityTestCase(object):
         self.assertTrue(ref.sudo(self.user_public.id).read())
         # and other portal user too
         self.assertTrue(ref.sudo(self.user2.id).read())
+
+    def test_perm_view_group_ids(self):
+        ref = self.model.sudo(self.user1.id).create({'name': 'Foo'})
+        with self.assertRaises(exceptions.AccessError):
+            ref.sudo(self.user2.id).name
+        # sharing group
+        group = self.env['res.groups'].create({'name': 'View Team'})
+        self.user2.write({'groups_id': [(4, group.id)]})
+        ref.write({'view_group_ids': [(4, group.id)]})
+        # now user2 can read
+        self.assertTrue(ref.sudo(self.user2.id).name)
+        # public user still cannot access
+        with self.assertRaises(exceptions.AccessError):
+            ref.sudo(self.user_public.id).name
+
+    def test_perm_write_group_ids(self):
+        ref = self.model.sudo(self.user1.id).create({'name': 'Foo'})
+        with self.assertRaises(exceptions.AccessError):
+            ref.sudo(self.user2.id).name = 'New name here!'
+        # sharing group
+        group = self.env['res.groups'].create({'name': 'Write Team'})
+        self.user2.write({'groups_id': [(4, group.id)]})
+        ref.write({'write_group_ids': [(4, group.id)]})
+        # now user2 can write
+        ref.sudo(self.user2.id).name = 'New name here!'
+        self.assertEqual(ref.name, 'New name here!')
+        # public user still cannot access
+        with self.assertRaises(exceptions.AccessError):
+            ref.sudo(self.user_public.id).name = 'not me!'
