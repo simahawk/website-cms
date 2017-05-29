@@ -1,7 +1,8 @@
+from . import security
 from . import coremetadata
 from . import image
 from . import orderable
-from . import security
-from . import tag
-from . import parent
 from . import content
+from . import tag
+from . import test_models
+

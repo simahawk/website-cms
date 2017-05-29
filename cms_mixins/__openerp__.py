@@ -15,7 +15,10 @@
     "depends": [
         'website',
     ],
+    # TODO: include this conditionally
     "data": [
+        'test_ir_rules_example.xml',
+        'test_ir_model_access.xml',
     ],
     'external_dependencies': {
         'python': ['requests', ],
