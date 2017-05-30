@@ -35,3 +35,13 @@ if testing:
             self.write({'image': False})
             res = super(SecuredModel, self).unlink()
             return res
+
+    class OrderableModel(models.Model):
+        """A test model that implements `cms.orderable.mixin`."""
+
+        _name = 'testmodel.orderable'
+        _description = 'cms_mixins: orderable test model'
+        _inherit = [
+            'cms.orderable.mixin',
+        ]
+        name = fields.Char()

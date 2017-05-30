@@ -6,6 +6,7 @@ CMS Mixins
 ==========
 
 * ``cms.security.mixin``
+* ``cms.orderable.mixin``
 
 
 Security mixin
@@ -36,6 +37,25 @@ Usage:
         ]
         # generate security automatically
         _auto_security_policy = True
+
+
+Orderable mixin
+---------------
+
+Implements basic ordering features:
+
+* order model by `sequence desc` by default
+* last created item has always higher sequence
+
+Usage:
+
+.. code:: python
+
+    class OrderableModel(models.Model):
+        _name = 'testmodel.orderable'
+        _inherit = [
+            'cms.orderable.mixin',
+        ]
 
 
 Bug Tracker
