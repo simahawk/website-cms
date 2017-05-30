@@ -3,16 +3,12 @@ import ast
 
 from odoo import models
 
-# TODO: Remove file in v11
-# Include this fix https://github.com/odoo/odoo/commit/27ff895dfd92619d496f67c8b11cb76277bf62d2."""  # noqa
-# Backported to OCB here https://github.com/OCA/OCB/pull/654
-
 
 class IRQweb(models.AbstractModel):
+    """Include this fix https://github.com/odoo/odoo/commit/27ff895dfd92619d496f67c8b11cb76277bf62d2."""  # noqa
     _inherit = "ir.qweb"
 
     def _compile_directive_call(self, el, options):
-        """Barely copied from odoo master (v11)."""
         tmpl = el.attrib.pop('t-call')
         _values = self._make_name('values_copy')
         call_options = el.attrib.pop('t-call-options', None)
