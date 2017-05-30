@@ -15,4 +15,10 @@
     'data': [
         'security/partner_access.xml',
     ],
+    "external_dependencies": {
+        'python': [
+            'validate_email',
+        ],
+    },
+
 }
