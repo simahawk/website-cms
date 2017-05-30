@@ -9,6 +9,7 @@ CMS Mixins
 * ``cms.orderable.mixin``
 * ``cms.coremetadata.mixin``
 * ``cms.content.mixin``
+* ``cms.parent.mixin``
 
 
 Security mixin
@@ -95,9 +96,9 @@ Implements basic website content features:
 
 * the following mixins are already implemented:
 
-    * website.published.mixin
-    * cms.coremetadata.mixin
-    * cms.orderable.mixin
+    * ``website.published.mixin``
+    * ``cms.coremetadata.mixin``
+    * ``cms.orderable.mixin``
 
 * adds basic fields:
 
@@ -119,6 +120,37 @@ Usage:
         ]
         cms_url_prefix = '/contents/'
 
+
+Parent mixin
+------------
+
+Implements basic website hierarchy features:
+
+* parent / children relations without need to re-define relation per each model
+
+* constrain to avoid recursive parent of parent relation
+
+* helper method for action to open children list in backend
+
+* `hierarchy` method to list the full hierarchy of an item
+
+* `name_get` overide to include - on demand - the full hierarchy path on an item
+
+* `get_listing` method to list all descendant items
+
+Usage:
+
+.. code:: python
+
+    class ParentModel(models.Model):
+        """A test model that implements `cms.parent.mixin`."""
+
+        _name = 'testmodel.parent'
+        _description = 'cms_mixins: parent test model'
+        _inherit = [
+            'cms.parent.mixin',
+        ]
+        name = fields.Char()
 
 
 Bug Tracker

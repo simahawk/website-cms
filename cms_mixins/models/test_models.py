@@ -66,3 +66,16 @@ if testing:
             'cms.content.mixin',
         ]
         cms_url_prefix = '/contents/'
+
+    class ParentModel(models.Model):
+        """A test model that implements `cms.parent.mixin`."""
+
+        _name = 'testmodel.parent'
+        _description = 'cms_mixins: parent test model'
+        _inherit = [
+            'cms.parent.mixin',
+        ]
+        name = fields.Char()
+
+        def _open_children_context(self):
+            return {'custom_key': 'foo'}
