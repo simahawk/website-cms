@@ -45,3 +45,14 @@ if testing:
             'cms.orderable.mixin',
         ]
         name = fields.Char()
+
+    class CoremetadataModel(models.Model):
+        """A test model that implements `cms.coremetadata.mixin`."""
+
+        _name = 'testmodel.coremetadata'
+        _description = 'cms_mixins: coremetadata test model'
+        _inherit = [
+            'website.published.mixin',
+            'cms.coremetadata.mixin',
+        ]
+        name = fields.Char()

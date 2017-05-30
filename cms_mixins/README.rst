@@ -7,6 +7,7 @@ CMS Mixins
 
 * ``cms.security.mixin``
 * ``cms.orderable.mixin``
+* ``cms.coremetadata.mixin``
 
 
 Security mixin
@@ -56,6 +57,35 @@ Usage:
         _inherit = [
             'cms.orderable.mixin',
         ]
+
+
+Coremetadata mixin
+------------------
+
+Implements basic core metadata features:
+
+* exposes create/write fields:
+
+    `create_uid`, `write_uid`, `create_date`, `write_date`
+
+  so that you can use them in backend forms to show important info
+
+* adds new fields:
+
+    * `published_uid` to track who published an item
+    * `published_date` to track when an item has been published
+
+Usage:
+
+.. code:: python
+
+    class CoremetadataModel(models.Model):
+        _name = 'testmodel.coremetadata'
+        _inherit = [
+            'website.published.mixin',
+            'cms.orderable.mixin',
+        ]
+
 
 
 Bug Tracker
