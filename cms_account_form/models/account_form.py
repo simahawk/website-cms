@@ -2,9 +2,9 @@
 # Copyright 2016 Camptocamp SA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
 
-from openerp import models, _
-from openerp import SUPERUSER_ID
-from openerp.addons.base.ir.ir_mail_server import MailDeliveryException
+from odoo import models, _
+from odoo import SUPERUSER_ID
+from odoo.addons.base.ir.ir_mail_server import MailDeliveryException
 
 import logging
 _logger = logging.getLogger(__name__)
