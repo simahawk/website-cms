@@ -8,6 +8,7 @@ CMS Mixins
 * ``cms.security.mixin``
 * ``cms.orderable.mixin``
 * ``cms.coremetadata.mixin``
+* ``cms.content.mixin``
 
 
 Security mixin
@@ -85,6 +86,38 @@ Usage:
             'website.published.mixin',
             'cms.orderable.mixin',
         ]
+
+
+Content mixin
+-------------
+
+Implements basic website content features:
+
+* the following mixins are already implemented:
+
+    * website.published.mixin
+    * cms.coremetadata.mixin
+    * cms.orderable.mixin
+
+* adds basic fields:
+
+    * `name` defines content's name and "sluggified" in URL
+    * `description` brief description of the content
+    * `body` to contain HTML content
+
+* generate basic URL: just provide a `cms_url_prefix` attribute
+  to have an URL like `myodoo.com/contents/bla-1`.
+
+Usage:
+
+.. code:: python
+
+    class ContentModel(models.Model):
+        _name = 'testmodel.content'
+        _inherit = [
+            'cms.content.mixin',
+        ]
+        cms_url_prefix = '/contents/'
 
 
 

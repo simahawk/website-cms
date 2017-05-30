@@ -56,3 +56,13 @@ if testing:
             'cms.coremetadata.mixin',
         ]
         name = fields.Char()
+
+    class ContentModel(models.Model):
+        """A test model that implements `cms.content.mixin`."""
+
+        _name = 'testmodel.content'
+        _description = 'cms_mixins: content test model'
+        _inherit = [
+            'cms.content.mixin',
+        ]
+        cms_url_prefix = '/contents/'
