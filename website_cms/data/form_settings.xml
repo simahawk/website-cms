@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record id="website_cms.model_cms_page" model="ir.model">
+      <field name="website_form_default_field_id" ref="website_cms.field_cms_page_name" />
+      <field name="website_form_access">True</field>
+      <field name="website_form_label">Edit page</field>
+    </record>
+  </data>
+</odoo>

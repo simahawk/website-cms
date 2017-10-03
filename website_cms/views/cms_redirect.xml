@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+<record id="cms_redirect_form" model="ir.ui.view">
+  <field name="name">CMS Redirect form</field>
+  <field name="model">cms.redirect</field>
+  <field name="arch" type="xml">
+    <form string="Redirect">
+
+      <group col="4">
+        <group string="Main data" name="main_1" colspan="4">
+          <field name="name" />
+          <field name="view_id" colspan="2" />
+          <field name="cms_page_id" colspan="2" context="{'include_path':1}" />
+          <field name="url" colspan="2" />
+          <field name="status" colspan="2" />
+        </group>
+      </group>
+
+    </form>
+  </field>
+</record>
+
+
+<record id="cms_redirect_tree" model="ir.ui.view">
+  <field name="name">CMS Redirect tree</field>
+  <field name="model">cms.redirect</field>
+  <field name="arch" type="xml">
+    <tree string="Redirects">
+      <field name="name" />
+      <field name="cms_page_id" />
+      <field name="url" />
+      <field name="view_id" />
+      <field name="status" />
+      <field name="website_url" />
+    </tree>
+  </field>
+</record>
+
+
+<record id="redirect_search" model="ir.ui.view" >
+  <field name="name">CMS Redirect search</field>
+  <field name="model">cms.redirect</field>
+  <field name="arch" type="xml">
+
+    <search string="Search redirect">
+      <field name="name" />
+      <field name="cms_page_id" />
+      <field name="url" />
+      <field name="view_id" />
+    </search>
+
+  </field>
+</record>
+
+</odoo>
