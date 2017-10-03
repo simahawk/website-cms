@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="cms_media_form" model="ir.ui.view">
+    <field name="name">CMS Media Form</field>
+    <field name="model">cms.media</field>
+    <field name="arch" type="xml">
+      <form string="Media">
+        <sheet>
+          <div class="oe_button_box" name="button_box">
+            <button
+              name="update_published"
+              class="oe_stat_button"
+              icon="fa-globe"
+              type="object">
+                <field name="website_published" widget="website_button"/>
+            </button>
+          </div>
+
+          <label for="name" class="oe_edit_only"/>
+          <h1>
+            <field name="name"/>
+          </h1>
+          <group name="url" string="Public URL"  colspan="4">
+            <field name="website_url" widget="url" nolabel="1" readonly="1" />
+          </group>
+          <group name="description_group" string="Description" groups="base.group_no_one"  colspan="4">
+            <field name="description" nolabel="1"/>
+          </group>
+          <group name="misc">
+            <group>
+              <field name="page_id" context="{'include_path':1}" />
+              <field name="lang_id"
+                     options="{'no_open': True, 'no_create': True}"/>
+              <field name="type" />
+              <field name="datas" filename="datas_fname" attrs="{'invisible':[('type','=','url')]}"/>
+              <field name="datas_fname" invisible="1" attrs="{'invisible':[('type','=','url')]}" class="oe_inline oe_right"/>
+              <field name="url" widget="url" attrs="{'invisible':[('type','=','binary')]}"/>
+              <field name="mimetype" groups="base.group_no_one"/>
+              <field name="category_id"
+                     options="{'no_open': True, 'no_create': True}"/>
+              <field name="force_category_id"
+                     options="{'no_open': True, 'no_create': True}"/>
+            </group>
+            <group string="History">
+              <label for="create_uid" string="Created on"/>
+              <div name="creation_div">
+                <field name="create_uid" readonly="1" class="oe_inline"/> on
+                <field name="create_date" readonly="1" class="oe_inline"/>
+              </div>
+              <label for="published_date" string="Published on"/>
+              <div name="publish_div">
+                <field name="published_uid" readonly="1" class="oe_inline"/> on
+                <field name="published_date" class="oe_inline"/>
+              </div>
+            </group>
+            <group name="images" string="Preview">
+              <field name="image"
+                     string="Preview for listing and presentation"
+                     colspan="2"
+                     widget="image"
+                     options='{"preview_image": "image_medium"}'
+                     />
+            </group>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="media_tree" model="ir.ui.view">
+    <field name="name">CMS Media Tree</field>
+    <field name="model">cms.media</field>
+    <field name="arch" type="xml">
+      <tree string="Media">
+        <field name="name"/>
+        <field name="datas_fname"/>
+        <field name="mimetype"/>
+        <field name="category_id" />
+        <field name="lang_id" />
+        <field name="type"/>
+        <field name="create_uid"/>
+        <field name="create_date"/>
+        <field name="published_date"/>
+        <field name="res_model"/>
+        <field name="res_field"/>
+        <field name="res_id"/>
+        <field name="company_id" groups="base.group_multi_company"/>
+      </tree>
+    </field>
+  </record>
+
+  <record id="media_search" model="ir.ui.view">
+    <field name="name">CMS Media Search</field>
+    <field name="model">cms.media</field>
+    <field name="arch" type="xml">
+      <search string="Media">
+        <field name="name" filter_domain="['|', ('name','ilike',self), ('datas_fname','ilike',self)]" string="Attachment"/>
+        <field name="create_date"/>
+        <filter string="URL" domain="[('type','=','url')]"/>
+        <filter string="Binary" domain="[('type','=','binary')]"/>
+        <separator/>
+        <filter name="my_documents_filter"
+          string="My Document(s)"
+          domain="[('create_uid','=',uid)]"
+          help="Filter on my documents"/>
+          <field name="create_uid"/>
+          <field name="type"/>
+          <group expand="0" string="Group By">
+            <filter name="category_id" string="Category" domain="[]" context="{'group_by':'category_id'}"/>
+            <filter name="owner" string="Owner" domain="[]" context="{'group_by':'create_uid'}"/>
+            <filter string="Type" domain="[]" context="{'group_by':'type'}" groups="base.group_no_one"/>
+            <filter string="Creation Month" domain="[]" context="{'group_by':'create_date'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+</odoo>
