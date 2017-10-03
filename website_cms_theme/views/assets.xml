@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Assets, less, js -->
+    <template id="website_cms_them" name="Website CMS Theme"
+        inherit_id="website.assets_frontend">
+        <xpath expr="link[last()]" position="after">
+            <link href="/website_cms_theme/static/src/less/layouts/form.less"
+                rel="stylesheet" type="text/less"/>
+            <link href="/website_cms_theme/static/src/less/assets/varriables.less"
+                rel="stylesheet" type="text/less"/>
+        </xpath>
+    </template>
+</odoo>
