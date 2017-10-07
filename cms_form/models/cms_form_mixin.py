@@ -71,6 +71,10 @@ class CMSFormMixin(models.AbstractModel):
         'required', 'readonly', 'relation',
         'store', 'help', 'selection',
     ]
+    # skip standard widget and use `<input type="hidden" />` instead
+    _form_fields_hidden = []
+    # render standard widget but make it invisible
+    _form_fields_invisible = []
     # include only these fields
     _form_fields_whitelist = ()
     # exclude these fields
@@ -220,6 +224,8 @@ class CMSFormMixin(models.AbstractModel):
             if fname in self._form_required_fields:
                 _fields[fname]['required'] = True
             _fields[fname]['widget'] = self.form_get_widget(fname, field)
+            _fields[fname]['invisible'] = \
+                fname in self._form_fields_invisible
 
     @property
     def form_widgets(self):
@@ -228,6 +234,8 @@ class CMSFormMixin(models.AbstractModel):
 
     def form_get_widget_model(self, fname, field):
         """Retrieve widget model name."""
+        if fname in self._form_fields_hidden:
+            return 'cms.form.widget.hidden'
         widget_model = 'cms.form.widget.char'
         for key in (field['type'], fname):
             model_key = 'cms.form.widget.' + key

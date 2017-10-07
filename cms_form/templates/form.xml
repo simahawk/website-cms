@@ -27,16 +27,21 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 <!-- TODO: add non-horizontal form template -->
 
 <template id="form_horizontal_field_wrapper" name="CMS form field wrapper horiz form">
-    <div t-attf-class="form-group form-field field-#{fname} #{field['required'] and 'field-required' or ''} #{errors.get(fname) and 'has-error' or ''}">
+  <div t-attf-class="form-group form-field field-#{fname} #{field['required'] and 'field-required' or ''} #{field['invisible'] and 'hidden' or ''} #{errors.get(fname) and 'has-error' or ''}">
+    <t t-if="not widget.w_is_hidden()">
       <label class="col-md-3 col-sm-4 control-label"
              t-att-for="fname" t-esc="field['string']">Name</label>
       <div class="col-md-9 col-sm-8">
         <t t-raw="widget.render()"/>
         <t t-if="field.get('help')">
-            <t t-call="cms_form.base_form_field_help_block" />
+          <t t-call="cms_form.base_form_field_help_block" />
         </t>
       </div>
-    </div>
+    </t>
+    <t t-else="">
+      <t t-raw="widget.render()"/>
+    </t>
+  </div>
 </template>
 
 

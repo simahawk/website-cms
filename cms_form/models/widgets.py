@@ -18,6 +18,8 @@ class Widget(models.AbstractModel):
     # use `w_` prefix as a namespace for all widget properties
     _w_template = ''
     _w_css_klass = ''
+    _w_hidden = False
+    _w_empty_value = ''
 
     def widget_init(self, form, fname, field,
                     data=None, subfields=None, template='', css_klass=''):
@@ -27,8 +29,6 @@ class Widget(models.AbstractModel):
         widget.w_form_values = form.form_render_values
         widget.w_fname = fname
         widget.w_field = field
-        widget.w_field_value = widget.w_form_values.get(
-            'form_data', {}).get(fname)
         widget.w_data = data or {}
         widget.w_subfields = subfields or field.get('subfields', {})
         widget._w_template = template or self._w_template
@@ -60,6 +60,11 @@ class Widget(models.AbstractModel):
         """Extract value from form submit."""
         return req_values.get(self.w_fname)
 
+    @property
+    def w_field_value(self):
+        return self.w_form_values.get(
+            'form_data', {}).get(self.w_fname, self._w_empty_value)
+
     def w_ids_from_input(self, value):
         """Convert list of ids from form input."""
         return [int(rec_id) for rec_id in value.split(',') if rec_id.isdigit()]
@@ -67,11 +72,21 @@ class Widget(models.AbstractModel):
     def w_subfields_by_value(self, value='_all'):
         return self.w_subfields.get(value, {})
 
+    def w_is_hidden(self):
+        return self._w_hidden
+
 
 class CharWidget(models.AbstractModel):
     _name = 'cms.form.widget.char'
     _inherit = 'cms.form.widget.mixin'
     _w_template = 'cms_form.field_widget_char'
+
+
+class HiddenWidget(models.AbstractModel):
+    _name = 'cms.form.widget.hidden'
+    _inherit = 'cms.form.widget.mixin'
+    _w_template = 'cms_form.field_widget_hidden'
+    _w_hidden = True
 
 
 class IntegerWidget(models.AbstractModel):
@@ -255,12 +270,13 @@ class TextWidget(models.AbstractModel):
         return widget
 
 
-class BinaryWidget(models.AbstractModel):
+class BinaryWidgetMixin(models.AbstractModel):
     _name = 'cms.form.widget.binary.mixin'
     _inherit = 'cms.form.widget.mixin'
+    _w_empty_value = {}
 
     def w_load(self, **req_values):
-        value = super(BinaryWidget, self).w_load(**req_values)
+        value = super(BinaryWidgetMixin, self).w_load(**req_values)
         return self.binary_to_form(value, **req_values)
 
     def binary_to_form(self, value, **req_values):
@@ -268,6 +284,7 @@ class BinaryWidget(models.AbstractModel):
             # 'value': '',
             # 'raw_value': '',
             # 'mimetype': '',
+            # 'meta': '',
         }
         if value:
             if isinstance(value, werkzeug.datastructures.FileStorage):
@@ -283,10 +300,27 @@ class BinaryWidget(models.AbstractModel):
             }
             if mimetype.startswith('image/'):
                 _value['value'] = 'data:{};base64,{}'.format(mimetype, value)
+            self.w_add_binary_metadata(_value)
         return _value
 
+    def w_add_binary_metadata(self, value):
+        value['meta'] = {
+            'size': self._filesize(value),
+            'size_human': self._filesize_human(self._filesize(value)),
+        }
+
+    def _filesize(self, value):
+        return len(value)
+
+    def _filesize_human(num, suffix='B'):
+        for unit in ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z']:
+            if abs(num) < 1024.0:
+                return "%3.1f%s%s" % (num, unit, suffix)
+            num /= 1024.0
+        return "%.1f%s%s" % (num, 'Y', suffix)
+
     def w_extract(self, **req_values):
-        value = super(BinaryWidget, self).w_extract(**req_values)
+        value = super(BinaryWidgetMixin, self).w_extract(**req_values)
         return self.form_to_binary(value, **req_values)
 
     def form_to_binary(self, value, **req_values):
@@ -303,6 +337,12 @@ class BinaryWidget(models.AbstractModel):
             else:
                 _value = value.split(',')[-1]
         return _value
+
+
+class BinaryWidget(models.AbstractModel):
+    _name = 'cms.form.widget.binary'
+    _inherit = 'cms.form.widget.binary.mixin'
+    _w_template = 'cms_form.field_widget_file'
 
 
 class ImageWidget(models.AbstractModel):
