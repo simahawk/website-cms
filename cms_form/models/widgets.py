@@ -300,24 +300,25 @@ class BinaryWidgetMixin(models.AbstractModel):
             }
             if mimetype.startswith('image/'):
                 _value['value'] = 'data:{};base64,{}'.format(mimetype, value)
-            self.w_add_binary_metadata(_value)
+            _value.update(self.w_binary_metadata(value))
         return _value
 
-    def w_add_binary_metadata(self, value):
-        value['meta'] = {
-            'size': self._filesize(value),
-            'size_human': self._filesize_human(self._filesize(value)),
+    def w_binary_metadata(self, value):
+        size = self._filesize(value)
+        return {
+            'size': size,
+            'size_human': self._filesize_human(size),
         }
 
     def _filesize(self, value):
         return len(value)
 
-    def _filesize_human(num, suffix='B'):
+    def _filesize_human(self, size, suffix='B'):
         for unit in ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z']:
-            if abs(num) < 1024.0:
-                return "%3.1f%s%s" % (num, unit, suffix)
-            num /= 1024.0
-        return "%.1f%s%s" % (num, 'Y', suffix)
+            if abs(size) < 1024.0:
+                return "%3.1f%s%s" % (size, unit, suffix)
+            size /= 1024.0
+        return "%.1f%s%s" % (size, 'Y', suffix)
 
     def w_extract(self, **req_values):
         value = super(BinaryWidgetMixin, self).w_extract(**req_values)
