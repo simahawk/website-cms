@@ -116,6 +116,7 @@ class M2OWidget(models.AbstractModel):
         widget = super(M2OWidget, self).widget_init(form, fname, field, **kw)
         widget.w_comodel = self.env[widget.w_field['relation']]
         widget.w_domain = widget.w_field.get('domain', [])
+        widget.w_domain_js = json.dumps(widget.w_domain)
         return widget
 
     @property
@@ -187,6 +188,7 @@ class X2MWidget(models.AbstractModel):
         widget = super(X2MWidget, self).widget_init(form, fname, field, **kw)
         widget.w_comodel = self.env[widget.w_field['relation']]
         widget.w_domain = widget.w_field.get('domain', [])
+        widget.w_domain_js = json.dumps(widget.w_domain)
         return widget
 
     def w_load(self, **req_values):

@@ -98,7 +98,7 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
          t-att-data-model="widget.w_field['relation']"
          data-display_name="name" data-fields='["name"]'
          t-att-placeholder="widget.w_field['string'] + '...'"
-         t-att-data-domain="widget.w_field.get('domain') or []"
+         t-att-data-domain="widget.w_domain_js"
         />
 
 </template>

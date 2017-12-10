@@ -36,9 +36,6 @@ odoo.define('cms_form.select2widgets', function (require) {
                           $input.data('search_field') || 'name', 'ilike', '%' + options.term + '%'
                         ])
                     }
-                    // TODO: use data.CompundDomain to build domain
-                    // ATM it's just in backend assets
-                    // and requires both data.js and pyeval.js
                     domain = _.union(domain, $input.data('domain'));
                     ajax.jsonRpc("/web/dataset/call_kw", 'call', {
                         model: $input.data('model'),
