@@ -110,42 +110,51 @@ class PartnerForm(models.AbstractModel):
             )
             if exists and self.o_request.website:
                 # prevent email save and display friendly message
-                values.pop('email')
-                title = _('Warning')
-                msg = _(
-                    'Email address `%s` already taken. '
-                    'Please check inside your company. '
-                ) % email
-                self.o_request.website.add_status_message(
-                    msg, type_='warning', title=title,
-                    session=self.o_request.session)
+                del values['email']
+                self._handle_email_exists(email)
                 return False
             try:
-                # update login on user
-                # this MUST happen BEFORE `reset_password` call
-                # otherwise it will not find the user to reset!
-                user.sudo().write(
-                    {'login': email, 'email': email, }
-                )
-                # send reset password link to verify email
-                user.sudo().reset_password(email)
+                self._handle_login_update(email, user)
                 can_change = True
             except MailDeliveryException:
                 # do not update email / login
                 # if for any reason we cannot send email
                 can_change = False
             if can_change and self.o_request.website:
-                # force log out
-                self.o_request.session.logout(keep_db=True)
-                # add message
-                title = _('Important')
-                msg = _(
-                    'Your login username has changed to: `%s`. '
-                    'An email has been sent to verify it. '
-                    'You will be asked to reset your password.'
-                ) % email
-                self.o_request.website.add_status_message(
-                    msg, type_='warning', title=title,
-                    session=self.o_request.session)
+                self._logout_and_notify(email)
             return True
         return False
+
+    def _handle_email_exists(self, email):
+        title = _('Warning')
+        msg = _(
+            'Email address `%s` already taken. '
+            'Please check inside your company. '
+        ) % email
+        self.o_request.website.add_status_message(
+            msg, type_='warning', title=title,
+            session=self.o_request.session)
+
+    def _handle_login_update(self, email, user):
+        # update login on user
+        # this MUST happen BEFORE `reset_password` call
+        # otherwise it will not find the user to reset!
+        user.sudo().write(
+            {'login': email, 'email': email, }
+        )
+        # send reset password link to verify email
+        user.sudo().reset_password(email)
+
+    def _logout_and_notify(self, email):
+        # force log out
+        self.o_request.session.logout(keep_db=True)
+        # add message
+        title = _('Important')
+        msg = _(
+            'Your login username has changed to: `%s`. '
+            'An email has been sent to verify it. '
+            'You will be asked to reset your password.'
+        ) % email
+        self.o_request.website.add_status_message(
+            msg, type_='warning', title=title,
+            session=self.o_request.session)

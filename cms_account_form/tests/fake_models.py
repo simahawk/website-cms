@@ -19,16 +19,3 @@ class FakePartnerOverride(models.Model):
         """
         if self.env.context.get('test_do_fail'):
             raise exceptions.ValidationError('VAT check failed')
-
-
-class FakeUserOverride(models.Model):
-    _name = 'res.users'
-    _inherit = 'res.users'
-    # we are extending a real model: do not delete it
-    _teardown_no_delete = True
-
-    test_pwd_reset_ok = fields.Boolean(default=False)
-
-    def reset_password(self, login):
-        """Mock reset_password to test email update."""
-        self.search([('login', '=', login)], limit=1).test_pwd_reset_ok = True

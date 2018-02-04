@@ -3,12 +3,13 @@
 from odoo.addons.cms_form.tests.common import FormTestCase
 from odoo.addons.cms_form.tests.utils import fake_request
 from odoo.tests.common import get_db_name
-from .fake_models import FakePartnerOverride, FakeUserOverride
+from .fake_models import FakePartnerOverride
+import mock
 
 
 class TestAccountForm(FormTestCase):
 
-    TEST_MODELS_KLASSES = [FakePartnerOverride, FakeUserOverride]
+    TEST_MODELS_KLASSES = [FakePartnerOverride]
 
     @classmethod
     def setUpClass(cls):
@@ -118,7 +119,9 @@ class TestAccountForm(FormTestCase):
                 'dismissible': True
             })
 
-    def test_update_email_ok(self):
+    @mock.patch('odoo.addons.auth_signup.models.res_users'
+                '.ResUsers.reset_password')
+    def test_update_email_ok(self, mocked_reset_pwd):
         data = {
             'email': 'new@email.com',
         }
@@ -153,7 +156,7 @@ class TestAccountForm(FormTestCase):
         # user has been logged out
         self.assertTrue(form.o_request.session.test_logged_out)
         # password reset has been forced
-        self.assertTrue(self.user1.test_pwd_reset_ok)
+        mocked_reset_pwd.assert_called()
 
         # and we got a nice status message in the session
         msg = ('Your login username has changed to: `new@email.com`. '
