@@ -114,13 +114,21 @@ class M2OWidget(models.AbstractModel):
         # important: return False if no value
         # otherwise you will compare an empty recordset with an id
         # in a select input in form widget template.
+        _value = value
+        _name = ''
         if isinstance(value, str) and value.isdigit():
             # number as string
-            return int(value) > 0 and int(value)
+            _value = int(value) > 0 and int(value)
         elif isinstance(value, models.BaseModel):
-            return value and value.id or None
+            _value = value and value.id or None
+            _name = value and value.name or ''
         elif isinstance(value, int):
-            return value
+            _value = value
+        if _value:
+            if not _name:
+                _name = self.w_comodel.browse(_value).name
+            # select2 compat value
+            return json.dumps({'id': _value, 'name': _name})
         return None
 
     def w_extract(self, **req_values):

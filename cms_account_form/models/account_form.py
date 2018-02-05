@@ -20,16 +20,17 @@ class PartnerForm(models.AbstractModel):
     _inherit = 'cms.form'
     _form_model = 'res.partner'
     _form_model_fields = (
-        'image',
         'name',
         'vat',
         'street',
         'zip',
         'city',
         'country_id',
+        'state_id',
         'phone',
         'email',
         'website',
+        'image',
     )
     _form_fields_order = _form_model_fields
     _form_required_fields = (
@@ -81,6 +82,17 @@ class PartnerForm(models.AbstractModel):
                 message = err.name
         return error, message
 
+    def _form_master_slave_info(self):
+        info = super()._form_master_slave_info()
+        info.update({
+            'country_id': {
+                'domain': {
+                    'state_id': "[['country_id', '=', master_val]]",
+                },
+            }
+        })
+        return info
+
     def form_before_create_or_update(self, values, extra_values):
         user = self.env.user
         # handle email update
@@ -120,6 +132,7 @@ class PartnerForm(models.AbstractModel):
                 # do not update email / login
                 # if for any reason we cannot send email
                 can_change = False
+                # TODO: drop email from updates and notify user?
             if can_change and self.o_request.website:
                 self._logout_and_notify(email)
             return True

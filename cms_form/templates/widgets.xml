@@ -20,7 +20,7 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 </template>
 
 
-<template id="field_widget_m2o" name="CMS form m2o field widget">
+<template id="field_widget_m2o_OLD" name="CMS form m2o field widget">
 
   <select t-attf-class="form-control #{widget.w_css_klass}"
           t-att-name="widget.w_fname"
@@ -39,8 +39,25 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 </template>
 
 
+<template id="field_widget_m2o" name="CMS form m2o autocomplete field widget">
+
+  <!-- NOTE: `t-att-value` is really important here
+  since without it `initSelection` function for select2 does not work-->
+  <input type="text" t-att-id="widget.w_fname" t-att-name="widget.w_fname"
+         t-attf-class="form-control js_select2_x2x_widget m2o #{widget.w_css_klass}"
+         t-attf-data-init-value="#{widget.w_field_value}"
+         t-att-value="widget.w_field_value or widget.w_fname"
+         t-att-data-model="widget.w_field['relation']"
+         data-display_name="name" data-fields='["name"]'
+         t-att-placeholder="widget.w_field['string'] + '...'"
+         t-att-data-domain="widget.w_field.get('domain') or []"
+        />
+
+</template>
+
+
 <template id="field_widget_selection" name="CMS form selection field widget"
-    inherit_id="cms_form.field_widget_m2o" primary="True">
+    inherit_id="cms_form.field_widget_m2o_OLD" primary="True">
 
     <xpath expr="//t[@t-foreach]/option" position="replace">
       <option t-att-value="opt_item['value']"
@@ -83,7 +100,7 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
   <!-- NOTE: `t-att-value` is really important here
   since without it `initSelection` function for select2 does not work-->
   <input type="text" t-att-id="widget.w_fname" t-att-name="widget.w_fname"
-         t-attf-class="form-control js_select2_m2m_widget #{widget.w_css_klass}"
+         t-attf-class="form-control js_select2_x2x_widget x2m #{widget.w_css_klass}"
          t-attf-data-init-value="#{widget.w_field_value}" t-att-value="widget.w_field_value or widget.w_fname"
          t-att-data-model="widget.w_field['relation']"
          data-display_name="name" data-fields='["name"]'
