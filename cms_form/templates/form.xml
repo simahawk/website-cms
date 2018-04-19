@@ -248,16 +248,28 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 
 <template id="wizard_progress_bar" name="CMS Wizard progress bar">
-  <ul class="status-bar wizard-status-bar hidden-xs">
-    <t t-set="current_step" t-value="form.wiz_current_step()" />
-    <t t-foreach="form.wiz_steps" t-as="step">
-      <t t-set="info" t-value="form.wiz_get_step_info(step)" />
-      <li t-attf-id="step_#{step}" t-attf-class="step">
-        <span t-if="info.get('title')" t-esc="info['title']" t-att-title="info.get('description')"
-              t-attf-class="#{page == step and 'active text-primary' or 'text-muted'}" />
-      </li>
-    </t>
-  </ul>
+  <t t-set="current_step" t-value="form.wiz_current_step()" />
+  <t t-if="len(form.wiz_steps) > 10">
+    <t t-set="pct_val" t-value="round(current_step / len(form.wiz_steps) * 100, 2)" />
+    <div class="progress wizard-status-bar">
+      <div class="progress-bar progress-bar-success" role="progressbar"
+           t-att-aria-valuenow="pct_val" aria-valuemin="0" aria-valuemax="100"
+           t-attf-style="width: #{pct_val}%;min-width:1em">
+        <span class="pct-value" t-esc="'{} / {}'.format(current_step, len(form.wiz_steps))" />
+      </div>
+    </div>
+  </t>
+  <t t-else="">
+    <ul class="status-bar wizard-status-bar hidden-xs">
+      <t t-foreach="form.wiz_steps" t-as="step">
+        <t t-set="info" t-value="form.wiz_get_step_info(step)" />
+        <li t-attf-id="step_#{step}" t-attf-class="step">
+          <span t-if="info.get('title')" t-esc="info['title']" t-att-title="info.get('description')"
+                t-attf-class="#{page == step and 'active text-primary' or 'text-muted'}" />
+        </li>
+      </t>
+    </ul>
+  </t>
 </template>
 
 
