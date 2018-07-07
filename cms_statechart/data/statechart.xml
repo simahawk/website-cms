@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- TODO: make noupdate -->
+  <record id="simple_publication" model="statechart">
+    <field name="model_ids" eval="[(4, ref('fluxdock_project.model_project_proposal'))]"/>
+    <field name="yaml">
+statechart:
+  name: simple_publication
+  root state:
+    name: root
+    initial: draft
+    states:
+      - name: draft
+        on entry: |
+          o.sc_update_display_state('simple_publication:draft')
+        transitions:
+          - event: make_published
+            target: published
+            action: |
+              o.cms_make_state('published')
+            guard: |
+              o.cms_can_publish()
+      - name: published
+        on entry: |
+          o.sc_update_display_state('simple_publication:published')
+        transitions:
+          - event: make_draft
+            target: draft
+            action: |
+              o.cms_make_state('draft')
+            guard: |
+              o.cms_can_publish()
+      </field>
+  </record>
+
+</odoo>

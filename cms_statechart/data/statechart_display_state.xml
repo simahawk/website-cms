@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- TODO: make noupdate -->
+  <!-- TODO: limit to specific statechart -->
+  <record id="state_draft" model="statechart.display_state">
+    <field name="name">Draft</field>
+    <field name="description">Your item is not visible yet</field>
+    <field name="key">simple_publication:draft</field>
+  </record>
+
+  <record id="state_published" model="statechart.display_state">
+    <field name="name">Published</field>
+    <field name="description">Your item is visible to the world</field>
+    <field name="key">simple_publication:published</field>
+  </record>
+
+</odoo>
